@@ -1,0 +1,41 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net9.0-windows10.0.17763.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <UseWindowsForms>true</UseWindowsForms>
+    <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
+    <GenerateDefaultIgnoreFile>true</GenerateDefaultIgnoreFile>
+  </PropertyGroup>
+
+  <Import Project="..\DateVersioning.targets" />
+
+  <ItemGroup>
+    <Compile Remove="Inspirations\**" />
+    <EmbeddedResource Remove="Inspirations\**" />
+    <None Remove="Inspirations\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Syncfusion.license" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Syncfusion.license" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+    <PackageReference Include="RestSharp" Version="112.1.0" />
+    <PackageReference Include="Syncfusion.XlsIO.Net.Core" Version="31.1.22" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\gallery_template.html" />
+    <EmbeddedResource Include="Resources\favorites_template.html" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  
+  <!-- Properties -->
+  <PropertyGroup>
+    <UpdateVersionOnBuild Condition="'$(UpdateVersionOnBuild)' == ''">true</UpdateVersionOnBuild>
+    <AssemblyInfoPath Condition="'$(AssemblyInfoPath)' == '' AND Exists('$(ProjectDir)Properties\AssemblyInfo.cs')">$(ProjectDir)Properties\AssemblyInfo.cs</AssemblyInfoPath>
+  </PropertyGroup>
+
+  <UsingTask 
+    TaskName="UpdateDateVersionTask" 
+    TaskFactory="CodeTaskFactory" 
+    AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.Core.dll">
+    <!--
+      Task to update the version in AssemblyInfo.cs with current date.
+      Updates the fourth component of the version number with MMdd format.
+      Parameters:
+        - AssemblyInfoFile: The path to the AssemblyInfo.cs file.
+      -->
+    <ParameterGroup>
+      <AssemblyInfoFile ParameterType="System.String" Required="true" />
+    </ParameterGroup>
+    <Task>
+      <Using Namespace="System" />
+      <Using Namespace="System.IO" />
+      <Using Namespace="System.Text.RegularExpressions" />
+      <Code Type="Fragment" Language="cs"><![CDATA[
+try
+{
+    if (!File.Exists(AssemblyInfoFile))
+    {
+        Log.LogWarning("AssemblyInfo file not found: " + AssemblyInfoFile);
+        return true;
+    }
+
+    string content = File.ReadAllText(AssemblyInfoFile);
+    string currentDate = DateTime.Now.ToString("yy.MMdd");
+    
+    // Pattern to match AssemblyVersion and AssemblyFileVersion attributes
+    string versionPattern = @"(Assembly(?:File)?Version\s*\(\s*"")(\d+)\.(\d+)\.(\d+)\.(\d+)(""\s*\))";
+    
+    // Replace with new date component
+    string replacement = "\u00241\u00242.\u00243." + currentDate + "\u00246";
+    
+    string originalContent = content;
+    var m = Regex.Match(content, versionPattern);
+    content = Regex.Replace(content, versionPattern, replacement);
+    
+    Log.LogMessage(MessageImportance.High, "=== Date Versioning Settings ===");
+    Log.LogMessage(MessageImportance.High, "AssemblyInfoPath      : {0}", AssemblyInfoFile);
+    Log.LogMessage(MessageImportance.High, "Current Date Component: {0:MM.dd}", DateTime.Now);
+    Log.LogMessage(MessageImportance.High, "Current Version       : {0}", m.Value);
+    
+    if (content != originalContent)
+    {
+        File.WriteAllText(AssemblyInfoFile, content);
+        
+        // Extract and display the updated versions
+        var matches = Regex.Matches(content, versionPattern);
+        foreach (Match match in matches)
+        {
+            string attributeName = match.Groups[0].Value.Contains("AssemblyFileVersion") ? "AssemblyFileVersion" : "AssemblyVersion";
+            string newVersion = match.Groups[2].Value + "." + match.Groups[3].Value + "." + match.Groups[4].Value + "." + currentDate;
+            Log.LogMessage(MessageImportance.High, "Updated " + attributeName + " to: " + newVersion);
+        }
+    }
+    else
+    {
+        Log.LogMessage(MessageImportance.High, "No changes were made.");
+    }
+    Success = true;
+}
+catch (Exception ex)
+{
+    Log.LogError("Failed to update version in AssemblyInfo.cs: " + ex.Message);
+    Success = false;
+    return false;
+}
+    Log.LogMessage(MessageImportance.High, "===============================");
+]]></Code>
+    </Task>
+  </UsingTask>
+
+  <!-- Main target to update date version -->
+  <Target Name="UpdateDateVersion" BeforeTargets="PrepareForBuild" Condition="'$(UpdateVersionOnBuild)' == 'true' AND Exists('$(AssemblyInfoPath)')">
+    <Error Condition="'$(AssemblyInfoPath)' == ''" Text="AssemblyInfoPath is not set or the file does not exist." />
+    <Message Importance="high" Text="Updating version date component..." />
+    <UpdateDateVersionTask AssemblyInfoFile="$(AssemblyInfoPath)" />
+  </Target>
+
+</Project>

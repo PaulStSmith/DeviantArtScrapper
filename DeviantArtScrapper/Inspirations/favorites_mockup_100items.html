@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DeviantArt Favorites - SampleArtist - Page 1</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #0a0a0a;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: #1a1a1a;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+            color: #e0e0e0;
+            padding: 30px 40px;
+            border-bottom: 1px solid #333;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            color: #ffffff;
+        }
+
+        .header h1::before {
+            content: '\2B50 ';
+        }
+
+        .header .meta {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+            opacity: 0.9;
+        }
+
+        .header .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #b0b0b0;
+        }
+
+        .header .meta-item strong {
+            color: #e0e0e0;
+        }
+
+        .gallery {
+            padding: 30px 40px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 25px;
+            background: #0a0a0a;
+        }
+
+        .deviation-card {
+            background: #2a2a2a;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+            transition: all 0.3s ease;
+            position: relative;
+            cursor: pointer;
+            border: 1px solid #333;
+        }
+
+        .deviation-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.9);
+            border-color: #555;
+        }
+
+        .deviation-thumbnail {
+            width: 100%;
+            height: 250px;
+            background: #1a1a1a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-size: 0.9em;
+            text-align: center;
+            padding: 20px;
+            position: relative;
+        }
+
+        .deviation-thumbnail img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            object-position: center;
+        }
+
+        .deviation-info {
+            padding: 15px;
+            background: #252525;
+        }
+
+        .deviation-title {
+            font-weight: 600;
+            font-size: 1em;
+            margin-bottom: 8px;
+            color: #e0e0e0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .deviation-author {
+            font-size: 0.85em;
+            color: #999;
+            margin-bottom: 8px;
+        }
+
+        .deviation-author::before {
+            content: 'by ';
+            opacity: 0.7;
+        }
+
+        .deviation-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85em;
+            color: #888;
+            margin-bottom: 8px;
+        }
+
+        .deviation-stats {
+            display: flex;
+            gap: 12px;
+            font-size: 0.85em;
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            color: #999;
+        }
+
+        .stat-item .icon {
+            color: #c85a5a;
+        }
+
+        .mature-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(200, 90, 90, 0.95);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.75em;
+            font-weight: bold;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .pagination {
+            padding: 30px 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            background: #1a1a1a;
+            border-top: 1px solid #333;
+        }
+
+        .pagination-btn {
+            padding: 10px 18px;
+            border: 2px solid #666;
+            background: #2a2a2a;
+            color: #aaa;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .pagination-btn:hover {
+            background: #3a3a3a;
+            color: #ffffff;
+            border-color: #888;
+            box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
+        }
+
+        .pagination-btn.active {
+            background: #3a3a3a;
+            color: #ffffff;
+            border-color: #888;
+        }
+
+        .pagination-btn.disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .pagination-info {
+            padding: 10px 20px;
+            color: #888;
+            font-weight: 600;
+        }
+
+        .footer {
+            background: #151515;
+            padding: 20px 40px;
+            text-align: center;
+            color: #666;
+            border-top: 1px solid #333;
+        }
+
+        @media (max-width: 768px) {
+            .gallery {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                gap: 15px;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>SampleArtist's Favorites</h1>
+            <div class="meta">
+                <div class="meta-item">
+                    <span>&#128197; Scraped:</span>
+                    <strong>2025-01-15 14:30:45</strong>
+                </div>
+                <div class="meta-item">
+                    <span>&#128290; Total:</span>
+                    <strong>1,250 favorites</strong>
+                </div>
+                <div class="meta-item">
+                    <span>&#128196; Page:</span>
+                    <strong>1 of 13</strong>
+                </div>
+            </div>
+        </div>
+
+        <div class="gallery">
+            <script>
+                // Generate 100 sample favorite cards with author overlays
+                const colors = ['#1a1a1a', '#202020', '#252525', '#1c1c1c', '#222222', '#1e1e1e', '#242424', '#1b1b1b', '#212121', '#1d1d1d'];
+                const titles = ['Sunset Dreams', 'Digital Portrait', 'Fantasy Landscape', 'Character Design', 'Abstract Art', 'Pixel Art', 'Concept Art', 'Fan Art', 'Original Character', 'Nature Study'];
+                const artists = ['ArtistOne', 'PixelMaster', 'DreamPainter', 'DigitalWizard', 'FantasyCreator', 'ConceptKing', 'ColorMage', 'BrushMaster', 'InkArtist', 'VectorPro'];
+                
+                for (let i = 1; i <= 100; i++) {
+                    const isMature = Math.random() < 0.07;
+                    
+                    const favs = Math.floor(Math.random() * 200);
+                    const comments = Math.floor(Math.random() * 50);
+                    const color = colors[Math.floor(Math.random() * colors.length)];
+                    const title = titles[Math.floor(Math.random() * titles.length)] + ' #' + i;
+                    const artist = artists[Math.floor(Math.random() * artists.length)];
+                    
+                    const daysAgo = Math.floor(Math.random() * 365);
+                    const date = new Date();
+                    date.setDate(date.getDate() - daysAgo);
+                    
+                    const matureBadge = isMature ? '<div class="mature-badge">18+</div>' : '';
+                    
+                    document.write(`
+                        <div class="deviation-card" data-url="https://www.deviantart.com/deviation/${i}">
+                            <div class="deviation-thumbnail" style="background: ${color};">
+                                ${matureBadge}
+                                <span style="opacity: 0.5;">Favorite #${i}<br/>Click to view</span>
+                            </div>
+                            <div class="deviation-info">
+                                <div class="deviation-title" title="${title}">${title}</div>
+                                <div class="deviation-author">${artist}</div>
+                                <div class="deviation-meta">
+                                    <span>${date.toLocaleDateString()}</span>
+                                </div>
+                                <div class="deviation-stats">
+                                    <div class="stat-item">
+                                        <span class="icon">&#10084;&#65039;</span>
+                                        <span>${favs}</span>
+                                    </div>
+                                    <div class="stat-item">
+                                        <span class="icon">&#128172;</span>
+                                        <span>${comments}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `);
+                }
+            </script>
+        </div>
+
+        <div class="pagination">
+            <a href="#" class="pagination-btn disabled">&laquo; Previous</a>
+            <span class="pagination-info">Page 1 of 13 (100 items)</span>
+            <a href="favorites_page_2.html" class="pagination-btn">Next &raquo;</a>
+        </div>
+
+        <div class="pagination">
+            <a href="favorites_page_1.html" class="pagination-btn active">1</a>
+            <a href="favorites_page_2.html" class="pagination-btn">2</a>
+            <a href="favorites_page_3.html" class="pagination-btn">3</a>
+            <a href="favorites_page_4.html" class="pagination-btn">4</a>
+            <a href="favorites_page_5.html" class="pagination-btn">5</a>
+            <span class="pagination-info">...</span>
+            <a href="favorites_page_13.html" class="pagination-btn">13</a>
+        </div>
+
+        <div class="footer">
+            <p>Generated by DeviantArt Scrapper | 
+               Scraped: 2025-01-15 14:30:45 | 
+               Total: 1,250 favorites</p>
+        </div>
+    </div>
+
+    <script>
+        document.querySelectorAll('.deviation-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const url = this.dataset.url;
+                if (url) {
+                    alert('Would open: ' + url);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,21 @@
+at Microsoft.DotNet.DesignTools.Client.Host.ProjectInfoProvider.NetCore.d__7.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+at Microsoft.DotNet.DesignTools.Client.Host.ProjectInfoProvider.d__11.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+at Microsoft.DotNet.DesignTools.Client.Host.ServerHostFactory.d__9.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+at Microsoft.DotNet.DesignTools.Client.DesignToolsClientLoader.d__29.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+at Microsoft.DotNet.DesignTools.Client.DesignToolsClientLoader.<>c__DisplayClass25_1.<<-ctor>b__1>d.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+at Microsoft.DotNet.DesignTools.Client.DesignToolsClientLoader.d__27.MoveNext() 

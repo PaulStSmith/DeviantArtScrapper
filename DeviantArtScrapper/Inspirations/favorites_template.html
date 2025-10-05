@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DeviantArt Favorites - {{USERNAME}} - Page {{PAGE_NUMBER}}</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #0a0a0a;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: #1a1a1a;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+            overflow: hidden;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+            color: #e0e0e0;
+            padding: 30px 40px;
+            border-bottom: 1px solid #333;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            color: #ffffff;
+        }
+
+        .header h1::before {
+            content: '\2B50 ';
+        }
+
+        .header .meta {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+            opacity: 0.9;
+        }
+
+        .header .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #b0b0b0;
+        }
+
+        .header .meta-item strong {
+            font-size: 1.1em;
+            color: #e0e0e0;
+        }
+
+        /* Gallery Grid */
+        .gallery {
+            padding: 30px 40px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 25px;
+            background: #0a0a0a;
+        }
+
+        .deviation-card {
+            background: #2a2a2a;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+            transition: all 0.3s ease;
+            position: relative;
+            cursor: pointer;
+            border: 1px solid #333;
+        }
+
+        .deviation-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.9);
+            border-color: #555;
+        }
+
+        .deviation-thumbnail {
+            width: 100%;
+            height: 250px;
+            background: #1a1a1a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-size: 0.9em;
+            text-align: center;
+            padding: 20px;
+            position: relative;
+        }
+
+        .deviation-thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            object-position: center;
+        }
+
+        .deviation-info {
+            padding: 15px;
+            background: #252525;
+        }
+
+        .deviation-title {
+            font-weight: 600;
+            font-size: 1em;
+            margin-bottom: 8px;
+            color: #e0e0e0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .deviation-author {
+            font-size: 0.85em;
+            color: #999;
+            margin-bottom: 8px;
+        }
+
+        .deviation-author::before {
+            content: 'by ';
+            opacity: 0.7;
+        }
+
+        .deviation-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85em;
+            color: #888;
+            margin-bottom: 8px;
+        }
+
+        .deviation-stats {
+            display: flex;
+            gap: 12px;
+            font-size: 0.85em;
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            color: #999;
+        }
+
+        .stat-item .icon {
+            font-size: 1.1em;
+            color: #c85a5a;
+        }
+
+        .mature-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(200, 90, 90, 0.95);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.75em;
+            font-weight: bold;
+            text-transform: uppercase;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Pagination */
+        .pagination {
+            padding: 30px 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            background: #1a1a1a;
+            border-top: 1px solid #333;
+        }
+
+        .pagination-btn {
+            padding: 10px 18px;
+            border: 2px solid #666;
+            background: #2a2a2a;
+            color: #aaa;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .pagination-btn:hover {
+            background: #3a3a3a;
+            color: #ffffff;
+            border-color: #888;
+            box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
+        }
+
+        .pagination-btn.active {
+            background: #3a3a3a;
+            color: #ffffff;
+            border-color: #888;
+        }
+
+        .pagination-btn.disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+            border-color: #444;
+            color: #444;
+        }
+
+        .pagination-btn.disabled:hover {
+            background: #2a2a2a;
+            color: #444;
+            box-shadow: none;
+        }
+
+        .pagination-info {
+            padding: 10px 20px;
+            color: #888;
+            font-weight: 600;
+        }
+
+        /* Footer */
+        .footer {
+            background: #151515;
+            padding: 20px 40px;
+            text-align: center;
+            color: #666;
+            border-top: 1px solid #333;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .gallery {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                gap: 15px;
+                padding: 20px;
+            }
+
+            .header {
+                padding: 20px;
+            }
+
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+            .pagination {
+                padding: 20px;
+            }
+        }
+
+        /* Accessibility */
+        .deviation-card:focus {
+            outline: 2px solid #888;
+            outline-offset: 2px;
+        }
+
+        /* Selection color */
+        ::selection {
+            background: #555;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>{{USERNAME}}'s Favorites</h1>
+            <div class="meta">
+                <div class="meta-item">
+                    <span>&#128197; Scraped:</span>
+                    <strong>{{SCRAPE_DATE}}</strong>
+                </div>
+                <div class="meta-item">
+                    <span>&#128290; Total:</span>
+                    <strong>{{TOTAL_DEVIATIONS}} favorites</strong>
+                </div>
+                <div class="meta-item">
+                    <span>&#128196; Page:</span>
+                    <strong>{{PAGE_NUMBER}} of {{TOTAL_PAGES}}</strong>
+                </div>
+            </div>
+        </div>
+
+        <!-- Gallery Grid -->
+        <div class="gallery">
+            <!-- DEVIATION ITEMS START -->
+            {{DEVIATION_ITEMS}}
+            <!-- DEVIATION ITEMS END -->
+        </div>
+
+        <!-- Pagination -->
+        <div class="pagination">
+            <a href="{{PREV_PAGE_FILE}}" class="pagination-btn {{PREV_DISABLED}}">&laquo; Previous</a>
+            
+            <span class="pagination-info">
+                Page {{PAGE_NUMBER}} of {{TOTAL_PAGES}} ({{ITEMS_ON_PAGE}} items)
+            </span>
+            
+            <a href="{{NEXT_PAGE_FILE}}" class="pagination-btn {{NEXT_DISABLED}}">Next &raquo;</a>
+        </div>
+
+        <!-- Page Navigation -->
+        <div class="pagination">
+            {{PAGE_LINKS}}
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p>Generated by DeviantArt Scrapper | 
+               Scraped: {{SCRAPE_DATE}} | 
+               Total: {{TOTAL_DEVIATIONS}} favorites</p>
+        </div>
+    </div>
+
+    <script>
+        // Click handler for deviation cards
+        document.querySelectorAll('.deviation-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const url = this.dataset.url;
+                if (url) {
+                    window.open(url, '_blank');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
