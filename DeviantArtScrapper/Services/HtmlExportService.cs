@@ -1,4 +1,5 @@
 using DeviantArtScrapper.Extensions;
+using DeviantArtScrapper.Localization;
 using DeviantArtScrapper.Models;
 using System.Runtime.Versioning;
 using System.Text;
@@ -234,9 +235,9 @@ public class HtmlExportService
                             ?? deviation.Content?.Src
                             ?? "";
 
-            var publishedDate = deviation.PublishedTime?.ToString("MMM dd, yyyy") ?? "Unknown";
-            var title = EscapeHtml(deviation.Title ?? "Untitled");
-            var author = EscapeHtml(deviation.Author?.Username ?? "Unknown");
+            var publishedDate = deviation.PublishedTime?.ToString("MMM dd, yyyy") ?? Localizer.HtmlDateUnknown;
+            var title = EscapeHtml(deviation.Title ?? Localizer.ExcelCellUntitled);
+            var author = EscapeHtml(deviation.Author?.Username ?? Localizer.HtmlDateUnknown);
             var url = deviation.Url ?? "";
             var favourites = deviation.Stats?.Favourites ?? 0;
             var comments = deviation.Stats?.Comments ?? 0;
@@ -252,7 +253,7 @@ public class HtmlExportService
 
             if (isMature)
             {
-                cards.AppendLine("        <div class=\"mature-badge\">18+</div>");
+                cards.AppendLine($"        <div class=\"mature-badge\">{Localizer.HtmlMatureBadge}</div>");
             }
 
             if (!string.IsNullOrEmpty(thumbnailUrl))

@@ -441,7 +441,7 @@ public partial class MainForm : Form
         }
         else
         {
-            throw new InvalidOperationException("Selected export format is not yet implemented.");
+            throw new InvalidOperationException(Localizer.ExceptionNotImplemented);
         }
     }
 
@@ -1114,7 +1114,7 @@ public partial class MainForm : Form
         }
         else
         {
-            throw new InvalidOperationException("Selected export format is not yet implemented.");
+            throw new InvalidOperationException(Localizer.ExceptionNotImplemented);
         }
     }
 

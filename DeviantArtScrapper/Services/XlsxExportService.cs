@@ -1,4 +1,5 @@
 using DeviantArtScrapper.Models;
+using DeviantArtScrapper.Localization;
 using Syncfusion.XlsIO;
 using System.Reflection;
 using System.Runtime.Versioning;
@@ -126,15 +127,15 @@ public class XlsxExportService
         // Define headers
         var headers = new[]
         {
-            "Title",
-            "Author",
-            "URL",
-            "Published Date",
-            "Mature Content",
-            "Favourites",
-            "Comments",
-            "Download URL",
-            "Thumbnail URL"
+            Localizer.ExcelColumnTitle,
+            Localizer.ExcelColumnAuthor,
+            Localizer.ExcelColumnUrl,
+            Localizer.ExcelColumnPublishedDate,
+            Localizer.ExcelColumnMatureContent,
+            Localizer.ExcelColumnFavourites,
+            Localizer.ExcelColumnComments,
+            Localizer.ExcelColumnDownloadUrl,
+            Localizer.ExcelColumnThumbnailUrl
         };
 
         // Add headers
@@ -172,7 +173,7 @@ public class XlsxExportService
         foreach (var deviation in deviations)
         {
             // Title (plain text, no hyperlink)
-            worksheet.Range[row, 1].Text = deviation.Title ?? "Untitled";
+            worksheet.Range[row, 1].Text = deviation.Title ?? Localizer.ExcelCellUntitled;
 
             // Author
             worksheet.Range[row, 2].Text = deviation.Author?.Username ?? "";
@@ -181,8 +182,8 @@ public class XlsxExportService
             var urlCell = worksheet.Range[row, 3];
             if (!string.IsNullOrEmpty(deviation.Url))
             {
-                urlCell.Text = "View";
-                worksheet.HyperLinks.Add(urlCell, ExcelHyperLinkType.Url, deviation.Url, "Click to view on DeviantArt");
+                urlCell.Text = Localizer.ExcelCellView;
+                worksheet.HyperLinks.Add(urlCell, ExcelHyperLinkType.Url, deviation.Url, Localizer.ExcelTooltipView);
                 urlCell.CellStyle.Font.Underline = ExcelUnderline.Single;
                 urlCell.CellStyle.Font.Color = ExcelKnownColors.Blue;
             }
@@ -195,7 +196,7 @@ public class XlsxExportService
             }
 
             // Mature Content
-            worksheet.Range[row, 5].Text = deviation.IsMature ? "Yes" : "No";
+            worksheet.Range[row, 5].Text = deviation.IsMature ? Localizer.ExcelCellYes : Localizer.ExcelCellNo;
             if (deviation.IsMature)
             {
                 worksheet.Range[row, 5].CellStyle.Font.Color = ExcelKnownColors.Red;
@@ -215,8 +216,8 @@ public class XlsxExportService
             var downloadCell = worksheet.Range[row, 8];
             if (!string.IsNullOrEmpty(downloadUrl))
             {
-                downloadCell.Text = "Download";
-                worksheet.HyperLinks.Add(downloadCell, ExcelHyperLinkType.Url, downloadUrl, "Click to download full image");
+                downloadCell.Text = Localizer.ExcelCellDownload;
+                worksheet.HyperLinks.Add(downloadCell, ExcelHyperLinkType.Url, downloadUrl, Localizer.ExcelTooltipDownload);
                 downloadCell.CellStyle.Font.Underline = ExcelUnderline.Single;
                 downloadCell.CellStyle.Font.Color = ExcelKnownColors.Blue;
             }
@@ -226,8 +227,8 @@ public class XlsxExportService
             var thumbnailCell = worksheet.Range[row, 9];
             if (!string.IsNullOrEmpty(thumbnailUrl))
             {
-                thumbnailCell.Text = "Thumbnail";
-                worksheet.HyperLinks.Add(thumbnailCell, ExcelHyperLinkType.Url, thumbnailUrl, "Click to view thumbnail");
+                thumbnailCell.Text = Localizer.ExcelCellThumbnail;
+                worksheet.HyperLinks.Add(thumbnailCell, ExcelHyperLinkType.Url, thumbnailUrl, Localizer.ExcelTooltipThumbnail);
                 thumbnailCell.CellStyle.Font.Underline = ExcelUnderline.Single;
                 thumbnailCell.CellStyle.Font.Color = ExcelKnownColors.Blue;
             }

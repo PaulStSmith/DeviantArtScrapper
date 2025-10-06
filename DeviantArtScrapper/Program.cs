@@ -1,5 +1,5 @@
 using DeviantArtScrapper.Forms;
-using System.Globalization;
+using DeviantArtScrapper.Localization;
 using System.Runtime.Versioning;
 
 namespace DeviantArtScrapper;
@@ -23,16 +23,14 @@ internal static class Program
         ApplicationConfiguration.Initialize();
 
         // Create a named mutex to ensure single instance
-        using var mutex = new Mutex(true, MutexName, out bool createdNew);
+        using var mutex = new Mutex(true, MutexName, out var createdNew);
 
         if (!createdNew)
         {
             // Another instance is already running
             MessageBox.Show(
-                "DeviantArt Scrapper is already running.\n\n" +
-                "Only one instance can run at a time to ensure proper API rate limiting " +
-                "and prevent conflicts during scraping operations.",
-                "Application Already Running",
+                Localizer.ProgramAlreadyRunning,
+                Localizer.ProgramAlreadyRunningTitle,
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Information);
             return;

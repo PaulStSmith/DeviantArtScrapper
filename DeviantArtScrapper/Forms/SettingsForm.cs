@@ -81,7 +81,7 @@ public partial class SettingsForm : Form
     {
         if (string.IsNullOrWhiteSpace(txtClientId.Text))
         {
-            MessageBox.Show("Client ID is required.", "Validation Error",
+            MessageBox.Show(Localizer.SettingsClientIdRequired, Localizer.TitleValidationError,
                 MessageBoxButtons.OK, MessageBoxIcon.Warning);
             txtClientId.Focus();
             return;
@@ -89,7 +89,7 @@ public partial class SettingsForm : Form
 
         if (string.IsNullOrWhiteSpace(txtClientSecret.Text))
         {
-            MessageBox.Show("Client Secret is required.", "Validation Error",
+            MessageBox.Show(Localizer.SettingsClientSecretRequired, Localizer.TitleValidationError,
                 MessageBoxButtons.OK, MessageBoxIcon.Warning);
             txtClientSecret.Focus();
             return;

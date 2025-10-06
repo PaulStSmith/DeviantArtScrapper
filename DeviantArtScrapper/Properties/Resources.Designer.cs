@@ -115,6 +115,177 @@ namespace DeviantArtScrapper.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Download.
+        /// </summary>
+        internal static string Excel_CellDownload {
+            get {
+                return ResourceManager.GetString("Excel_CellDownload", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No.
+        /// </summary>
+        internal static string Excel_CellNo {
+            get {
+                return ResourceManager.GetString("Excel_CellNo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Thumbnail.
+        /// </summary>
+        internal static string Excel_CellThumbnail {
+            get {
+                return ResourceManager.GetString("Excel_CellThumbnail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Untitled.
+        /// </summary>
+        internal static string Excel_CellUntitled {
+            get {
+                return ResourceManager.GetString("Excel_CellUntitled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to View.
+        /// </summary>
+        internal static string Excel_CellView {
+            get {
+                return ResourceManager.GetString("Excel_CellView", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Yes.
+        /// </summary>
+        internal static string Excel_CellYes {
+            get {
+                return ResourceManager.GetString("Excel_CellYes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Author.
+        /// </summary>
+        internal static string Excel_ColumnAuthor {
+            get {
+                return ResourceManager.GetString("Excel_ColumnAuthor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Comments.
+        /// </summary>
+        internal static string Excel_ColumnComments {
+            get {
+                return ResourceManager.GetString("Excel_ColumnComments", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Download URL.
+        /// </summary>
+        internal static string Excel_ColumnDownloadUrl {
+            get {
+                return ResourceManager.GetString("Excel_ColumnDownloadUrl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Favourites.
+        /// </summary>
+        internal static string Excel_ColumnFavourites {
+            get {
+                return ResourceManager.GetString("Excel_ColumnFavourites", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mature Content.
+        /// </summary>
+        internal static string Excel_ColumnMatureContent {
+            get {
+                return ResourceManager.GetString("Excel_ColumnMatureContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Published Date.
+        /// </summary>
+        internal static string Excel_ColumnPublishedDate {
+            get {
+                return ResourceManager.GetString("Excel_ColumnPublishedDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Thumbnail URL.
+        /// </summary>
+        internal static string Excel_ColumnThumbnailUrl {
+            get {
+                return ResourceManager.GetString("Excel_ColumnThumbnailUrl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Title.
+        /// </summary>
+        internal static string Excel_ColumnTitle {
+            get {
+                return ResourceManager.GetString("Excel_ColumnTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to URL.
+        /// </summary>
+        internal static string Excel_ColumnUrl {
+            get {
+                return ResourceManager.GetString("Excel_ColumnUrl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Click to download full image.
+        /// </summary>
+        internal static string Excel_TooltipDownload {
+            get {
+                return ResourceManager.GetString("Excel_TooltipDownload", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Click to view thumbnail.
+        /// </summary>
+        internal static string Excel_TooltipThumbnail {
+            get {
+                return ResourceManager.GetString("Excel_TooltipThumbnail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Click to view on DeviantArt.
+        /// </summary>
+        internal static string Excel_TooltipView {
+            get {
+                return ResourceManager.GetString("Excel_TooltipView", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Selected export format is not yet implemented..
+        /// </summary>
+        internal static string Exception_NotImplemented {
+            get {
+                return ResourceManager.GetString("Exception_NotImplemented", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to All files (*.*)|*.*.
         /// </summary>
         internal static string Filter_All {
@@ -147,6 +318,24 @@ namespace DeviantArtScrapper.Properties {
         internal static string Filter_Xlsx {
             get {
                 return ResourceManager.GetString("Filter_Xlsx", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unknown.
+        /// </summary>
+        internal static string Html_DateUnknown {
+            get {
+                return ResourceManager.GetString("Html_DateUnknown", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 18+.
+        /// </summary>
+        internal static string Html_MatureBadge {
+            get {
+                return ResourceManager.GetString("Html_MatureBadge", resourceCulture);
             }
         }
         
@@ -490,6 +679,26 @@ namespace DeviantArtScrapper.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to DeviantArt Scrapper is already running.
+        ///
+        ///Only one instance can run at a time to ensure proper API rate limiting and prevent conflicts during scraping operations..
+        /// </summary>
+        internal static string Program_AlreadyRunning {
+            get {
+                return ResourceManager.GetString("Program_AlreadyRunning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Application Already Running.
+        /// </summary>
+        internal static string Program_AlreadyRunningTitle {
+            get {
+                return ResourceManager.GetString("Program_AlreadyRunningTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cancelling....
         /// </summary>
         internal static string Progress_Cancelling {
@@ -607,11 +816,29 @@ namespace DeviantArtScrapper.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Client ID is required..
+        /// </summary>
+        internal static string Settings_ClientIdRequired {
+            get {
+                return ResourceManager.GetString("Settings_ClientIdRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Client Secret:.
         /// </summary>
         internal static string Settings_ClientSecret {
             get {
                 return ResourceManager.GetString("Settings_ClientSecret", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Client Secret is required..
+        /// </summary>
+        internal static string Settings_ClientSecretRequired {
+            get {
+                return ResourceManager.GetString("Settings_ClientSecretRequired", resourceCulture);
             }
         }
         

@@ -9,10 +9,9 @@ echo.
 :: Check if NSIS is installed
 where makensis >nul 2>&1
 if errorlevel 1 (
-    echo ERROR: NSIS (Nullsoft Scriptable Install System) not found in PATH
+    echo ERROR: NSIS ^(Nullsoft Scriptable Install System^) not found in PATH
     echo Please install NSIS from: https://nsis.sourceforge.io/Download
     echo.
-    pause
     exit /b 1
 )
 
@@ -20,7 +19,6 @@ if errorlevel 1 (
 call :FindMSBuild
 if errorlevel 1 (
     echo ERROR: MSBuild not found
-    pause
     exit /b 1
 )
 
@@ -41,7 +39,6 @@ echo [2/5] Restoring NuGet packages...
 "!MSBUILD_PATH!" "DeviantArtScrapper.sln" /t:Restore /p:Configuration=Release /p:Platform="Any CPU" /v:m
 if errorlevel 1 (
     echo ERROR: NuGet restore failed
-    pause
     exit /b 1
 )
 
@@ -50,16 +47,14 @@ echo [3/5] Building application in Release mode...
 "!MSBUILD_PATH!" "DeviantArtScrapper.sln" /p:Configuration=Release /p:Platform="Any CPU" /v:m
 if errorlevel 1 (
     echo ERROR: Build failed
-    pause
     exit /b 1
 )
 
 :: Publish the application
 echo [4/5] Publishing application...
-"!MSBUILD_PATH!" "DeviantArtScrapper\DeviantArtScrapper.csproj" /t:Publish /p:Configuration=Release /p:Platform="Any CPU" /p:RuntimeIdentifier=win-x64 /p:SelfContained=false /p:PublishDir="bin\Release\net9.0-windows10.0.17763.0\publish\" /v:m
+"!MSBUILD_PATH!" "DeviantArtScrapper\DeviantArtScrapper.csproj" /t:Publish /p:Configuration=Release /p:Platform="Any CPU" /p:RuntimeIdentifier=win-x64 /p:SelfContained=false /p:PublishDir="bin\Release\net9.0-windows10.0.17763.0\publish" /v:m
 if errorlevel 1 (
     echo ERROR: Publish failed
-    pause
     exit /b 1
 )
 
@@ -70,7 +65,6 @@ makensis DeviantArtScrapper.nsi
 if errorlevel 1 (
     echo ERROR: NSIS compilation failed
     cd ..
-    pause
     exit /b 1
 )
 cd ..
@@ -95,7 +89,6 @@ echo 1. Test the installer on a clean system
 echo 2. Create release notes
 echo 3. Upload to release repository
 echo.
-pause
 exit /b 0
 
 :FindMSBuild

@@ -8,7 +8,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8EC462FD-D22E-90A8-E5CE-7E832BA40C5D}"
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
-		build-installer.bat = build-installer.bat
 		build.bat = build.bat
 		CHANGELOG.md = CHANGELOG.md
 		CLAUDE.md = CLAUDE.md
@@ -23,6 +22,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Installer", "Installer", "{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}"
 	ProjectSection(SolutionItems) = preProject
+		build-installer.bat = build-installer.bat
 		installer\DeviantArtScrapper.nsi = installer\DeviantArtScrapper.nsi
 		installer\README_INSTALLER.md = installer\README_INSTALLER.md
 	EndProjectSection

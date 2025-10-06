@@ -38,14 +38,11 @@ VIAddVersionKey LegalCopyright "Copyright © 2025 ${PRODUCT_PUBLISHER}"
 
 ; Modern UI configuration
 !define MUI_ABORTWARNING
-!define MUI_ICON "..\DeviantArtScrapper\Resources\app.ico"
 !define MUI_UNICON "${NSISDIR}\Contrib\Graphics\Icons\modern-uninstall.ico"
 !define MUI_HEADERIMAGE
-!define MUI_HEADERIMAGE_BITMAP "header.bmp"
-!define MUI_WELCOMEFINISHPAGE_BITMAP "welcome.bmp"
+; !define MUI_HEADERIMAGE_BITMAP "header.bmp"
+; !define MUI_WELCOMEFINISHPAGE_BITMAP "welcome.bmp"
 
-; Variable to store the license file path
-Var LicenseFile
 
 ; Installer pages
 !insertmacro MUI_PAGE_WELCOME
@@ -57,7 +54,7 @@ Var LicenseFile
 !insertmacro MUI_PAGE_INSTFILES
 !define MUI_FINISHPAGE_RUN "$INSTDIR\DeviantArtScrapper.exe"
 !define MUI_FINISHPAGE_RUN_TEXT "$(LaunchApp)"
-!define MUI_FINISHPAGE_SHOWREADME "$INSTDIR\$ManualFileName"
+!define MUI_FINISHPAGE_SHOWREADME "$INSTDIR\USER_MANUAL.md"
 !define MUI_FINISHPAGE_SHOWREADME_TEXT "$(ViewManual)"
 !insertmacro MUI_PAGE_FINISH
 
@@ -112,11 +109,7 @@ Var ManualFileName
 
 ; Function to set the correct license file based on language
 Function PreLicensePage
-  ${If} $LANGUAGE == ${LANG_PORTUGUESEBR}
-    !insertmacro MUI_INSTALLOPTIONS_EXTRACT_AS "..\LICENSE.pt-BR" "LICENSE.ini"
-  ${Else}
-    !insertmacro MUI_INSTALLOPTIONS_EXTRACT_AS "..\LICENSE" "LICENSE.ini"
-  ${EndIf}
+  ; License page handled by standard MUI macros
 FunctionEnd
 
 ; Installer sections

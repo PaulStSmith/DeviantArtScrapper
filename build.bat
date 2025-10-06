@@ -15,7 +15,6 @@ echo.
 call :FindMSBuild
 if errorlevel 1 (
     echo ERROR: MSBuild not found
-    pause
     exit /b 1
 )
 
@@ -33,7 +32,6 @@ echo [2/3] Restoring NuGet packages...
 "!MSBUILD_PATH!" "DeviantArtScrapper.sln" /t:Restore /p:Configuration=!cfg! /p:Platform="Any CPU" /v:m
 if errorlevel 1 (
     echo ERROR: NuGet restore failed
-    pause
     exit /b 1
 )
 
@@ -42,7 +40,6 @@ echo [3/3] Building application...
 "!MSBUILD_PATH!" "DeviantArtScrapper.sln" /p:Configuration=!cfg! /p:Platform="Any CPU" /v:m
 if errorlevel 1 (
     echo ERROR: Build failed
-    pause
     exit /b 1
 )
 
@@ -63,7 +60,6 @@ echo.
 if "!cfg!"=="Debug" (
     echo TIP: For release build, run: build.bat Release
 )
-pause
 exit /b 0
 
 :FindMSBuild

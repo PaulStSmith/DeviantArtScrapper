@@ -304,4 +304,81 @@ Deseja exportar os resultados parciais?</value>
   <data name="Filter_All" xml:space="preserve">
     <value>Todos os arquivos (*.*)|*.*</value>
   </data>
+  <data name="Program_AlreadyRunning" xml:space="preserve">
+    <value>DeviantArt Scrapper já está em execução.
+
+Apenas uma instância pode ser executada por vez para garantir limitação adequada da API e evitar conflitos durante operações de scraping.</value>
+  </data>
+  <data name="Program_AlreadyRunningTitle" xml:space="preserve">
+    <value>Aplicação Já em Execução</value>
+  </data>
+  <data name="Settings_ClientIdRequired" xml:space="preserve">
+    <value>ID do Cliente é obrigatório.</value>
+  </data>
+  <data name="Settings_ClientSecretRequired" xml:space="preserve">
+    <value>Chave Secreta do Cliente é obrigatória.</value>
+  </data>
+  <data name="Excel_ColumnTitle" xml:space="preserve">
+    <value>Título</value>
+  </data>
+  <data name="Excel_ColumnAuthor" xml:space="preserve">
+    <value>Autor</value>
+  </data>
+  <data name="Excel_ColumnUrl" xml:space="preserve">
+    <value>URL</value>
+  </data>
+  <data name="Excel_ColumnPublishedDate" xml:space="preserve">
+    <value>Data de Publicação</value>
+  </data>
+  <data name="Excel_ColumnMatureContent" xml:space="preserve">
+    <value>Conteúdo Adulto</value>
+  </data>
+  <data name="Excel_ColumnFavourites" xml:space="preserve">
+    <value>Favoritos</value>
+  </data>
+  <data name="Excel_ColumnComments" xml:space="preserve">
+    <value>Comentários</value>
+  </data>
+  <data name="Excel_ColumnDownloadUrl" xml:space="preserve">
+    <value>URL de Download</value>
+  </data>
+  <data name="Excel_ColumnThumbnailUrl" xml:space="preserve">
+    <value>URL da Miniatura</value>
+  </data>
+  <data name="Excel_CellView" xml:space="preserve">
+    <value>Ver</value>
+  </data>
+  <data name="Excel_CellDownload" xml:space="preserve">
+    <value>Baixar</value>
+  </data>
+  <data name="Excel_CellThumbnail" xml:space="preserve">
+    <value>Miniatura</value>
+  </data>
+  <data name="Excel_CellYes" xml:space="preserve">
+    <value>Sim</value>
+  </data>
+  <data name="Excel_CellNo" xml:space="preserve">
+    <value>Não</value>
+  </data>
+  <data name="Excel_CellUntitled" xml:space="preserve">
+    <value>Sem Título</value>
+  </data>
+  <data name="Excel_TooltipView" xml:space="preserve">
+    <value>Clique para ver no DeviantArt</value>
+  </data>
+  <data name="Excel_TooltipDownload" xml:space="preserve">
+    <value>Clique para baixar imagem completa</value>
+  </data>
+  <data name="Excel_TooltipThumbnail" xml:space="preserve">
+    <value>Clique para ver miniatura</value>
+  </data>
+  <data name="Html_MatureBadge" xml:space="preserve">
+    <value>18+</value>
+  </data>
+  <data name="Html_DateUnknown" xml:space="preserve">
+    <value>Desconhecido</value>
+  </data>
+  <data name="Exception_NotImplemented" xml:space="preserve">
+    <value>Formato de exportação selecionado ainda não foi implementado.</value>
+  </data>
 </root>

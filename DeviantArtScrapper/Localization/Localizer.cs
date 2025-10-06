@@ -435,6 +435,151 @@ public static class Localizer
 
     #endregion
 
+    #region Program Messages
+
+    /// <summary>
+    /// Gets the message when application is already running
+    /// </summary>
+    public static string ProgramAlreadyRunning => Resources.Program_AlreadyRunning;
+
+    /// <summary>
+    /// Gets the title for the already running application dialog
+    /// </summary>
+    public static string ProgramAlreadyRunningTitle => Resources.Program_AlreadyRunningTitle;
+
+    #endregion
+
+    #region Settings Validation
+
+    /// <summary>
+    /// Gets the Client ID required validation message
+    /// </summary>
+    public static string SettingsClientIdRequired => Resources.Settings_ClientIdRequired;
+
+    /// <summary>
+    /// Gets the Client Secret required validation message
+    /// </summary>
+    public static string SettingsClientSecretRequired => Resources.Settings_ClientSecretRequired;
+
+    #endregion
+
+    #region Excel Export Strings
+
+    /// <summary>
+    /// Gets the Excel column header for Title
+    /// </summary>
+    public static string ExcelColumnTitle => Resources.Excel_ColumnTitle;
+
+    /// <summary>
+    /// Gets the Excel column header for Author
+    /// </summary>
+    public static string ExcelColumnAuthor => Resources.Excel_ColumnAuthor;
+
+    /// <summary>
+    /// Gets the Excel column header for URL
+    /// </summary>
+    public static string ExcelColumnUrl => Resources.Excel_ColumnUrl;
+
+    /// <summary>
+    /// Gets the Excel column header for Published Date
+    /// </summary>
+    public static string ExcelColumnPublishedDate => Resources.Excel_ColumnPublishedDate;
+
+    /// <summary>
+    /// Gets the Excel column header for Mature Content
+    /// </summary>
+    public static string ExcelColumnMatureContent => Resources.Excel_ColumnMatureContent;
+
+    /// <summary>
+    /// Gets the Excel column header for Favourites
+    /// </summary>
+    public static string ExcelColumnFavourites => Resources.Excel_ColumnFavourites;
+
+    /// <summary>
+    /// Gets the Excel column header for Comments
+    /// </summary>
+    public static string ExcelColumnComments => Resources.Excel_ColumnComments;
+
+    /// <summary>
+    /// Gets the Excel column header for Download URL
+    /// </summary>
+    public static string ExcelColumnDownloadUrl => Resources.Excel_ColumnDownloadUrl;
+
+    /// <summary>
+    /// Gets the Excel column header for Thumbnail URL
+    /// </summary>
+    public static string ExcelColumnThumbnailUrl => Resources.Excel_ColumnThumbnailUrl;
+
+    /// <summary>
+    /// Gets the Excel cell text for View link
+    /// </summary>
+    public static string ExcelCellView => Resources.Excel_CellView;
+
+    /// <summary>
+    /// Gets the Excel cell text for Download link
+    /// </summary>
+    public static string ExcelCellDownload => Resources.Excel_CellDownload;
+
+    /// <summary>
+    /// Gets the Excel cell text for Thumbnail link
+    /// </summary>
+    public static string ExcelCellThumbnail => Resources.Excel_CellThumbnail;
+
+    /// <summary>
+    /// Gets the Excel cell text for Yes
+    /// </summary>
+    public static string ExcelCellYes => Resources.Excel_CellYes;
+
+    /// <summary>
+    /// Gets the Excel cell text for No
+    /// </summary>
+    public static string ExcelCellNo => Resources.Excel_CellNo;
+
+    /// <summary>
+    /// Gets the Excel cell text for Untitled
+    /// </summary>
+    public static string ExcelCellUntitled => Resources.Excel_CellUntitled;
+
+    /// <summary>
+    /// Gets the Excel tooltip for View link
+    /// </summary>
+    public static string ExcelTooltipView => Resources.Excel_TooltipView;
+
+    /// <summary>
+    /// Gets the Excel tooltip for Download link
+    /// </summary>
+    public static string ExcelTooltipDownload => Resources.Excel_TooltipDownload;
+
+    /// <summary>
+    /// Gets the Excel tooltip for Thumbnail link
+    /// </summary>
+    public static string ExcelTooltipThumbnail => Resources.Excel_TooltipThumbnail;
+
+    #endregion
+
+    #region HTML Export Strings
+
+    /// <summary>
+    /// Gets the HTML mature content badge text
+    /// </summary>
+    public static string HtmlMatureBadge => Resources.Html_MatureBadge;
+
+    /// <summary>
+    /// Gets the HTML unknown date text
+    /// </summary>
+    public static string HtmlDateUnknown => Resources.Html_DateUnknown;
+
+    #endregion
+
+    #region Exception Messages
+
+    /// <summary>
+    /// Gets the not implemented exception message
+    /// </summary>
+    public static string ExceptionNotImplemented => Resources.Exception_NotImplemented;
+
+    #endregion
+
     #region Utility Methods
 
     /// <summary>
