@@ -25,6 +25,7 @@ A professional Windows desktop application for scraping and exporting DeviantArt
 - **Retry Logic**: Automatic retry with exponential backoff for network issues
 - **Rate Limiting**: Respectful API usage with built-in delays
 - **Single Instance**: Mutex protection prevents multiple instances
+- **Internationalization**: Full multi-language support (English, Portuguese)
 
 ### 🔒 **Security & Privacy**
 - **Encrypted Storage**: DPAPI-encrypted credential storage
@@ -254,7 +255,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Changelog
 
-### Version 0.1.25.1005 (October 5, 2025)
+### Version 0.1.25.1006 (October 6, 2025)
 - ✅ Complete dual-tab interface (Gallery + Favorites)
 - ✅ Multiple export formats (CSV, HTML, Excel)
 - ✅ Real-time progress monitoring with transfer rates
@@ -264,6 +265,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - ✅ Excel export with advanced formatting
 - ✅ Comprehensive error handling and retry logic
 - ✅ Secure credential storage with DPAPI encryption
+- ✅ Full internationalization support (English and Portuguese)
+- ✅ Automated installer with NSIS and multi-language support
 
 ## Support
 
@@ -278,7 +281,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - 📱 **Mobile Exports**: Mobile-optimized HTML templates
 - 🔍 **Advanced Filtering**: Filter by date, popularity, content type
 - 📊 **Analytics Dashboard**: Built-in statistics and trending analysis
-- 🌐 **Internationalization**: Multi-language support
+- 🌐 **Extended Localization**: Additional language support beyond English and Portuguese
 
 ---
 

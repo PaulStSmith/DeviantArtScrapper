@@ -52,10 +52,11 @@ makensis DeviantArtScrapper.nsi
 ## Installer Features
 
 ### Professional Installation Experience
-- **Modern UI**: Clean, professional installer interface
+- **Modern UI**: Clean, professional installer interface with multi-language support
 - **Component Selection**: Optional components (desktop shortcut, file associations, etc.)
 - **Prerequisites Check**: Verifies Windows version and .NET runtime
 - **Smart Upgrades**: Detects and handles existing installations
+- **Localization**: Automatic language detection (English and Portuguese)
 
 ### Installation Components
 - **Main Application** (Required): Core application files and documentation
@@ -81,7 +82,7 @@ makensis DeviantArtScrapper.nsi
 Edit these variables in `DeviantArtScrapper.nsi`:
 ```nsis
 !define PRODUCT_NAME "DeviantArt Scrapper"
-!define PRODUCT_VERSION "0.1.25.1005"
+!define PRODUCT_VERSION "0.1.25.1006"
 !define PRODUCT_PUBLISHER "ByteForge"
 !define PRODUCT_WEB_SITE "https://github.com/yourusername/DeviantArtScrapper"
 ```
@@ -163,7 +164,7 @@ The installer script creates:
 
 ### Release Package Contents
 ```
-DeviantArtScrapper-v0.1.25.1005/
+DeviantArtScrapper-v0.1.25.1006/
 ├── DeviantArtScrapper-Setup.exe    # Main installer
 ├── README.md                       # Project readme
 ├── USER_MANUAL.md                  # Complete user guide
