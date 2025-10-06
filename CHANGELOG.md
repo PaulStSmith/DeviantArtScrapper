@@ -5,6 +5,54 @@ All notable changes to DeviantArt Scrapper will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.25.1006] - 2025-10-06
+
+### Added
+- **Complete Internationalization System** with English and Portuguese (Brazilian) support
+  - Centralized Localizer service with strongly-typed string access
+  - Automatic language detection based on Windows system culture
+  - RESX resource files with proper UTF-8 encoding and ResXFileCodeGenerator
+  - All UI controls, messages, and dialogs fully localized
+- **Multi-Language NSIS Installer** with automatic language detection
+  - Portuguese (Brazilian) installer UI and messages
+  - Language-specific documentation installation (USER_MANUAL.md vs MANUAL_USUARIO.md)
+  - Localized license files (LICENSE vs LICENSE.pt-BR)
+  - Language-aware Start Menu shortcuts and first-run setup
+- **Enhanced Project Documentation** 
+  - Portuguese user manual (MANUAL_USUARIO.md) with complete translations
+  - Comprehensive localization documentation (LOCALIZATION.md, LOCALIZATION_SUMMARY.md)
+  - Updated installer documentation with multi-language capabilities
+  - Portuguese MIT license translation (LICENSE.pt-BR)
+
+### Enhanced
+- **Improved Build System** with comprehensive MSBuild detection
+  - Enhanced build-installer.bat with Visual Studio 2017/2019/2022 support
+  - Professional build pipeline: clean → restore → build → publish → installer
+  - Better error handling and user feedback during build process
+- **Professional Installer Experience**
+  - Component selection for shortcuts, file associations, and firewall rules
+  - Proper Windows integration with Add/Remove Programs registration
+  - Single-instance awareness during installation
+  - Enhanced UI with language-specific graphics support
+
+### Technical Improvements
+- **Localization Architecture** following .NET best practices
+  - Thread-safe singleton pattern for license registration
+  - Compile-time checking of resource keys with IntelliSense support
+  - Easy extensibility for additional languages (Spanish, French, German, etc.)
+  - No runtime performance impact (resources compiled into assembly)
+- **Updated CLAUDE.md** with comprehensive project documentation
+  - Full internationalization system documentation
+  - MSBuild detection and build process details
+  - Architecture patterns and development guidelines
+  - Language addition instructions and maintenance notes
+
+### Maintenance
+- Updated project structure documentation to reflect current architecture
+- Enhanced version management with date-based versioning (0.1.yy.MMdd)
+- Comprehensive testing instructions for multi-language scenarios
+- Professional distribution packaging with language-aware components
+
 ## [0.1.25.1005] - 2025-10-05
 
 ### Added
