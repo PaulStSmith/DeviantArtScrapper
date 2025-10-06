@@ -24,7 +24,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Installer", "Installer", "{
 	ProjectSection(SolutionItems) = preProject
 		build-installer.bat = build-installer.bat
 		installer\DeviantArtScrapper.nsi = installer\DeviantArtScrapper.nsi
-		installer\README_INSTALLER.md = installer\README_INSTALLER.md
+		installer\README.md = installer\README.md
 	EndProjectSection
 EndProject
 Global
