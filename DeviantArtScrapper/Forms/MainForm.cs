@@ -32,7 +32,6 @@ public partial class MainForm : Form
 
     // Transfer rate tracking
     private DateTime _scrapingStartTime;
-    private int _lastItemCount;
     private DateTime _lastUpdateTime;
 
     /// <summary>
@@ -85,6 +84,40 @@ public partial class MainForm : Form
             lblStatus.Text = Localizer.StatusConfigured;
         else
             lblStatus.Text = Localizer.StatusNotConfigured;
+            
+        // Enable/disable UI controls based on configuration state
+        UpdateControlsEnabledState(hasCredentials);
+    }
+    
+    /// <summary>
+    /// Enables or disables UI controls based on whether the application is properly configured.
+    /// Settings button remains always enabled to allow configuration.
+    /// </summary>
+    /// <param name="isConfigured">True if the application has valid API credentials; otherwise, false.</param>
+    private void UpdateControlsEnabledState(bool isConfigured)
+    {
+        // Gallery tab controls
+        txtUsername.Enabled = isConfigured;
+        txtFileName.Enabled = isConfigured;
+        btnBrowse.Enabled = isConfigured;
+        btnStartScraping.Enabled = isConfigured;
+        grpFileFormat.Enabled = isConfigured;
+        rbCSV.Enabled = isConfigured;
+        rbHTML.Enabled = isConfigured;
+        rbXLSX.Enabled = isConfigured;
+        
+        // Favorites tab controls  
+        txtUsernameFav.Enabled = isConfigured;
+        txtFileNameFav.Enabled = isConfigured;
+        btnBrowseFav.Enabled = isConfigured;
+        btnStartScrapingFav.Enabled = isConfigured;
+        grpFileFormatFav.Enabled = isConfigured;
+        rbCSVFav.Enabled = isConfigured;
+        rbHTMLFav.Enabled = isConfigured;
+        rbXLSXFav.Enabled = isConfigured;
+        
+        // Tab control itself can remain enabled so users can see both tabs
+        // Settings button always remains enabled
     }
 
     /// <summary>
@@ -244,7 +277,6 @@ public partial class MainForm : Form
 
         // Initialize transfer rate tracking
         _scrapingStartTime = DateTime.UtcNow;
-        _lastItemCount = 0;
         _lastUpdateTime = _scrapingStartTime;
 
         var allDeviations = new List<Deviation>();
@@ -864,7 +896,6 @@ public partial class MainForm : Form
 
         // Initialize transfer rate tracking
         _scrapingStartTime = DateTime.UtcNow;
-        _lastItemCount = 0;
         _lastUpdateTime = _scrapingStartTime;
 
         var allDeviations = new List<Deviation>();

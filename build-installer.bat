@@ -58,10 +58,19 @@ if errorlevel 1 (
     exit /b 1
 )
 
+:: Extract version from built assembly
+echo [5a/5] Extracting version from built assembly...
+for /f "tokens=*" %%i in ('powershell -Command "(Get-Item 'DeviantArtScrapper\bin\Release\net9.0-windows10.0.17763.0\DeviantArtScrapper.exe').VersionInfo.FileVersion"') do set APP_VERSION=%%i
+if "!APP_VERSION!"=="" (
+    echo ERROR: Could not extract version from built assembly
+    exit /b 1
+)
+echo Detected application version: !APP_VERSION!
+
 :: Create installer with NSIS
-echo [5/5] Creating installer with NSIS...
+echo [5b/5] Creating installer with NSIS...
 cd installer
-makensis DeviantArtScrapper.nsi
+makensis /DPRODUCT_VERSION_OVERRIDE="!APP_VERSION!" DeviantArtScrapper.nsi
 if errorlevel 1 (
     echo ERROR: NSIS compilation failed
     cd ..

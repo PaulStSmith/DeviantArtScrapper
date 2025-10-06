@@ -3,7 +3,12 @@
 ; Requires NSIS 3.0+ with modern UI
 
 !define PRODUCT_NAME "DeviantArt Scrapper"
-!define PRODUCT_VERSION "0.1.25.1005"
+; Use version override from build script if provided, otherwise fallback to default
+!ifndef PRODUCT_VERSION_OVERRIDE
+  !define PRODUCT_VERSION "0.1.25.1006"
+!else
+  !define PRODUCT_VERSION "${PRODUCT_VERSION_OVERRIDE}"
+!endif
 !define PRODUCT_PUBLISHER "ByteForge"
 !define PRODUCT_WEB_SITE "https://github.com/yourusername/DeviantArtScrapper"
 !define PRODUCT_DIR_REGKEY "Software\Microsoft\Windows\CurrentVersion\App Paths\DeviantArtScrapper.exe"
@@ -95,13 +100,11 @@ LangString Win10Required ${LANG_PORTUGUESEBR} "Este aplicativo requer Windows 10
 ; Section descriptions for English
 LangString DESC_SecMain ${LANG_ENGLISH} "Core application files and documentation. This component is required."
 LangString DESC_SecDesktop ${LANG_ENGLISH} "Creates a desktop shortcut for easy access to the application."
-LangString DESC_SecFileAssoc ${LANG_ENGLISH} "Associates DeviantArt Scrapper with project files for double-click opening."
 LangString DESC_SecFirewall ${LANG_ENGLISH} "Adds Windows Firewall exception for API connectivity (recommended)."
 
 ; Section descriptions for Portuguese (Brazil)
 LangString DESC_SecMain ${LANG_PORTUGUESEBR} "Arquivos principais do aplicativo e documentação. Este componente é obrigatório."
 LangString DESC_SecDesktop ${LANG_PORTUGUESEBR} "Cria um atalho na área de trabalho para fácil acesso ao aplicativo."
-LangString DESC_SecFileAssoc ${LANG_PORTUGUESEBR} "Associa o DeviantArt Scrapper com arquivos de projeto para abertura com clique duplo."
 LangString DESC_SecFirewall ${LANG_PORTUGUESEBR} "Adiciona exceção no Firewall do Windows para conectividade com API (recomendado)."
 
 ; Variable to store the manual filename
@@ -189,13 +192,6 @@ Section "Desktop Shortcut" SecDesktop
   CreateShortCut "$DESKTOP\${PRODUCT_NAME}.lnk" "$INSTDIR\DeviantArtScrapper.exe"
 SectionEnd
 
-Section "File Associations" SecFileAssoc
-  ; Register file associations for export files
-  WriteRegStr HKCR ".deviantart-scrapper" "" "DeviantArtScrapper.Project"
-  WriteRegStr HKCR "DeviantArtScrapper.Project" "" "DeviantArt Scrapper Project"
-  WriteRegStr HKCR "DeviantArtScrapper.Project\DefaultIcon" "" "$INSTDIR\DeviantArtScrapper.exe,0"
-  WriteRegStr HKCR "DeviantArtScrapper.Project\shell\open\command" "" '"$INSTDIR\DeviantArtScrapper.exe" "%1"'
-SectionEnd
 
 Section "Windows Firewall Exception" SecFirewall
   ; Add Windows Firewall exception for API access
@@ -206,7 +202,6 @@ SectionEnd
 !insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
   !insertmacro MUI_DESCRIPTION_TEXT ${SecMain} "$(DESC_SecMain)"
   !insertmacro MUI_DESCRIPTION_TEXT ${SecDesktop} "$(DESC_SecDesktop)"
-  !insertmacro MUI_DESCRIPTION_TEXT ${SecFileAssoc} "$(DESC_SecFileAssoc)"
   !insertmacro MUI_DESCRIPTION_TEXT ${SecFirewall} "$(DESC_SecFirewall)"
 !insertmacro MUI_FUNCTION_DESCRIPTION_END
 
@@ -261,11 +256,8 @@ Section Uninstall
   ; Remove firewall rule
   nsExec::ExecToLog 'netsh advfirewall firewall delete rule name="${PRODUCT_NAME}"'
   
-  ; Remove file associations
-  DeleteRegKey HKCR ".deviantart-scrapper"
-  DeleteRegKey HKCR "DeviantArtScrapper.Project"
   
-  ; Remove application files
+  ; Remove application files and directories completely
   RMDir /r "$INSTDIR\runtimes"
   Delete "$INSTDIR\*.dll"
   Delete "$INSTDIR\*.exe"
@@ -280,8 +272,13 @@ Section Uninstall
   Delete "$INSTDIR\CLAUDE.md"
   Delete "$INSTDIR\FIRST_RUN_SETUP.txt"
   
-  ; Remove installation directory if empty
-  RMDir "$INSTDIR"
+  ; Remove any configuration files that might be in the install directory
+  Delete "$INSTDIR\config.json"
+  Delete "$INSTDIR\*.log"
+  Delete "$INSTDIR\*.tmp"
+  
+  ; Force removal of the entire installation directory and all its contents
+  RMDir /r "$INSTDIR"
   
   ; Remove registry entries
   DeleteRegKey ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}"
@@ -347,12 +344,6 @@ Function .onInstSuccess
   ${EndIf}
   
   FileClose $0
-FunctionEnd
-
-; Modern UI customization
-!define MUI_CUSTOMFUNCTION_GUIINIT onGUIInit
-Function onGUIInit
-  ; Add custom initialization if needed
 FunctionEnd
 
 ; EOF
