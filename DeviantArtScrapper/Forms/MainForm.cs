@@ -1,5 +1,6 @@
 using DeviantArtScrapper.Models;
 using DeviantArtScrapper.Services;
+using DeviantArtScrapper.Localization;
 using System.Runtime.Versioning;
 using System.Text;
 
@@ -62,7 +63,7 @@ public partial class MainForm : Form
         }
         catch (Exception ex)
         {
-            MessageBox.Show($"Failed to load configuration: {ex.Message}", "Error",
+            MessageBox.Show(Localizer.GetSettingsLoadFailed(ex.Message), Localizer.TitleError,
                 MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
     }
@@ -79,11 +80,11 @@ public partial class MainForm : Form
                        _currentConfig.TokenExpiration > DateTime.UtcNow;
 
         if (hasCredentials && hasToken)
-            lblStatus.Text = "Status: Ready - API configured and authenticated";
+            lblStatus.Text = Localizer.StatusReady;
         else if (hasCredentials)
-            lblStatus.Text = "Status: Configured - Authentication required";
+            lblStatus.Text = Localizer.StatusConfigured;
         else
-            lblStatus.Text = "Status: Not configured - Please configure API settings";
+            lblStatus.Text = Localizer.StatusNotConfigured;
     }
 
     /// <summary>
@@ -102,12 +103,12 @@ public partial class MainForm : Form
             {
                 await _configService.SaveConfigurationAsync(_currentConfig);
                 UpdateStatusLabel();
-                MessageBox.Show("Settings saved successfully!", "Success",
+                MessageBox.Show(Localizer.SettingsSavedSuccess, Localizer.TitleSuccess,
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Failed to save settings: {ex.Message}", "Error",
+                MessageBox.Show(Localizer.GetSettingsSaveFailed(ex.Message), Localizer.TitleError,
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -168,7 +169,7 @@ public partial class MainForm : Form
     {
         if (_isScrapingInProgress)
         {
-            MessageBox.Show("Scraping is already in progress.", "Information",
+            MessageBox.Show(Localizer.MessageScrapingInProgress, Localizer.TitleInformation,
                 MessageBoxButtons.OK, MessageBoxIcon.Information);
             return;
         }
@@ -190,7 +191,7 @@ public partial class MainForm : Form
         if (_cancellationTokenSource != null && !_cancellationTokenSource.IsCancellationRequested)
         {
             _cancellationTokenSource.Cancel();
-            UpdateProgressLabel("Cancelling...");
+            UpdateProgressLabel(Localizer.ProgressCancelling);
         }
     }
 
@@ -203,7 +204,7 @@ public partial class MainForm : Form
     {
         if (string.IsNullOrWhiteSpace(txtUsername.Text))
         {
-            MessageBox.Show("Please enter a DeviantArt username.", "Validation Error",
+            MessageBox.Show(Localizer.MessageEnterUsername, Localizer.TitleValidationError,
                 MessageBoxButtons.OK, MessageBoxIcon.Warning);
             txtUsername.Focus();
             return false;
@@ -211,7 +212,7 @@ public partial class MainForm : Form
 
         if (string.IsNullOrWhiteSpace(txtFileName.Text))
         {
-            MessageBox.Show("Please enter a filename.", "Validation Error",
+            MessageBox.Show(Localizer.MessageEnterFilename, Localizer.TitleValidationError,
                 MessageBoxButtons.OK, MessageBoxIcon.Warning);
             txtFileName.Focus();
             return false;
@@ -222,7 +223,7 @@ public partial class MainForm : Form
 
         if (!hasCredentials)
         {
-            MessageBox.Show("Please configure your API credentials in Settings first.", "Configuration Required",
+            MessageBox.Show(Localizer.MessageConfigureApi, Localizer.TitleConfigRequired,
                 MessageBoxButtons.OK, MessageBoxIcon.Warning);
             return false;
         }
@@ -274,7 +275,7 @@ public partial class MainForm : Form
                     offset = response.NextOffset ?? offset + limit;
 
                     // Update progress and transfer rate
-                    UpdateProgressLabel($"Collected {allDeviations.Count} items...");
+                    UpdateProgressLabel(Localizer.GetProgressCollected(allDeviations.Count));
                     UpdateTransferRate(allDeviations.Count);
                 }
                 else
@@ -292,7 +293,7 @@ public partial class MainForm : Form
 
             if (allDeviations.Count == 0)
             {
-                MessageBox.Show($"No gallery items found for user '{username}'.", "No Results",
+                MessageBox.Show(Localizer.GetMessageNoGalleryItems(username), Localizer.TitleNoResults,
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
@@ -300,30 +301,29 @@ public partial class MainForm : Form
             // Sort by date (newest first) - single source of sorting
             allDeviations = [.. allDeviations.OrderByDescending(d => d.PublishedTime ?? DateTime.MinValue)];
 
-            UpdateProgressLabel("Exporting data...");
+            UpdateProgressLabel(Localizer.ProgressExporting);
             await ExportDataAsync(allDeviations, fileName, username);
 
             string completionMessage;
             if (rbHTML.Checked)
             {
                 var pageCount = (int)Math.Ceiling(allDeviations.Count / 100.0);
-                completionMessage = $"Successfully scraped {allDeviations.Count} items and exported to {pageCount} HTML page(s)";
+                completionMessage = Localizer.GetMessageSuccessScrapedHtml(allDeviations.Count, pageCount);
             }
             else if (rbXLSX.Checked)
             {
-                completionMessage = $"Successfully scraped {allDeviations.Count} items and exported to {fileName}";
+                completionMessage = Localizer.GetMessageSuccessScraped(allDeviations.Count, fileName);
             }
             else
             {
-                completionMessage = $"Successfully scraped {allDeviations.Count} items and exported to {fileName}";
+                completionMessage = Localizer.GetMessageSuccessScraped(allDeviations.Count, fileName);
             }
 
             SetProgressState(ProgressState.Success);
-            MessageBox.Show(completionMessage, "Export Complete", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show(completionMessage, Localizer.TitleExportComplete, MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
         catch (OperationCanceledException)
         {
-            // Handle explicit cancellation
             await HandleCancellationAsync(allDeviations, txtFileName.Text.Trim(), txtUsername.Text.Trim());
         }
         catch (Exception ex)
@@ -337,7 +337,7 @@ public partial class MainForm : Form
             }
             else
             {
-                MessageBox.Show($"Error during scraping: {ex.Message}", "Error",
+                MessageBox.Show(Localizer.GetMessageScrapingError(ex.Message), Localizer.TitleError,
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -354,21 +354,15 @@ public partial class MainForm : Form
     /// Handles the cancellation of a scraping operation.
     /// Offers to export partial results if any items were collected.
     /// </summary>
-    /// <param name="collectedDeviations">The list of deviations collected before cancellation.</param>
-    /// <param name="fileName">The target filename for export.</param>
-    /// <param name="username">The DeviantArt username being scraped.</param>
-    /// <returns>A task representing the asynchronous cancellation handling operation.</returns>
     private async Task HandleCancellationAsync(List<Deviation> collectedDeviations, string fileName, string username)
     {
         SetProgressState(ProgressState.Idle);
 
-        // If we have partial results, offer to export them
         if (collectedDeviations.Count > 0)
         {
             var result = MessageBox.Show(
-                $"Scraping was cancelled after collecting {collectedDeviations.Count} items.\n\n" +
-                $"Would you like to export the partial results?",
-                "Export Partial Results?",
+                Localizer.GetMessageCancelledPartial(collectedDeviations.Count),
+                Localizer.TitlePartialExport,
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Question);
 
@@ -376,35 +370,35 @@ public partial class MainForm : Form
             {
                 try
                 {
-                    UpdateProgressLabel("Exporting partial results...");
+                    UpdateProgressLabel(Localizer.ProgressExporting);
                     await ExportDataAsync(collectedDeviations, fileName, username);
 
                     string exportMessage;
                     if (rbHTML.Checked)
                     {
                         var pageCount = (int)Math.Ceiling(collectedDeviations.Count / 100.0);
-                        exportMessage = $"Partial results exported to HTML ({pageCount} page(s))";
+                        exportMessage = Localizer.GetMessagePartialExportedHtml(pageCount);
                     }
                     else if (rbXLSX.Checked)
                     {
-                        exportMessage = $"Partial results exported to {fileName}.xlsx";
+                        exportMessage = Localizer.GetMessagePartialExportedFile($"{fileName}.xlsx");
                     }
                     else
                     {
-                        exportMessage = $"Partial results exported to {fileName}.csv";
+                        exportMessage = Localizer.GetMessagePartialExportedFile($"{fileName}.csv");
                     }
 
                     MessageBox.Show(
-                        $"Successfully exported {collectedDeviations.Count} items.\n\n{exportMessage}",
-                        "Partial Export Complete",
+                        Localizer.GetMessagePartialExported(collectedDeviations.Count, exportMessage),
+                        Localizer.TitlePartialComplete,
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Information);
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show(
-                        $"Error exporting partial results: {ex.Message}",
-                        "Export Error",
+                        Localizer.GetMessagePartialExportError(ex.Message),
+                        Localizer.TitleExportError,
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Error);
                 }
@@ -413,8 +407,8 @@ public partial class MainForm : Form
         else
         {
             MessageBox.Show(
-                "Scraping was cancelled before any items were collected.",
-                "Cancelled",
+                Localizer.MessageCancelledNoItems,
+                Localizer.TitleCancelled,
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Information);
         }
@@ -483,7 +477,7 @@ public partial class MainForm : Form
             }
             catch (OperationCanceledException)
             {
-                throw; // Re-throw cancellation
+                throw;
             }
             catch (Exception ex)
             {
@@ -491,13 +485,12 @@ public partial class MainForm : Form
                 
                 if (attempt >= MaxRetryAttempts)
                 {
-                    // Log the final failure
                     throw new InvalidOperationException(
                         $"Failed to fetch gallery after {MaxRetryAttempts} attempts", ex);
                 }
 
                 // Exponential backoff
-                UpdateProgressLabel($"Request failed (attempt {attempt}/{MaxRetryAttempts}), retrying in {delayMs}ms...");
+                UpdateProgressLabel(Localizer.GetProgressRequestFailed(attempt, MaxRetryAttempts, delayMs));
                 await Task.Delay(delayMs, cancellationToken);
                 delayMs *= 2; // Exponential backoff
             }
@@ -665,13 +658,13 @@ public partial class MainForm : Form
     private string GetFileFilter()
     {
         if (rbCSV.Checked)
-            return "CSV files (*.csv)|*.csv";
+            return Localizer.FilterCsv;
         if (rbHTML.Checked)
-            return "HTML files (*.html)|*.html";
+            return Localizer.FilterHtml;
         if (rbXLSX.Checked)
-            return "Excel files (*.xlsx)|*.xlsx";
+            return Localizer.FilterXlsx;
 
-        return "All files (*.*)|*.*";
+        return Localizer.FilterAll;
     }
 
     /// <summary>
@@ -704,33 +697,33 @@ public partial class MainForm : Form
                 lblTransferRate.Visible = false;
                 btnCancelScraping.Visible = false;
                 btnStartScraping.Enabled = true;
-                btnStartScraping.Text = "Start Scraping";
+                btnStartScraping.Text = Localizer.ButtonStartScraping;
                 break;
             case ProgressState.Running:
                 progressScraping.Visible = true;
                 progressScraping.Style = ProgressBarStyle.Marquee;
-                progressScraping.MarqueeAnimationSpeed = 20; // Faster animation (default is 30ms)
+                progressScraping.MarqueeAnimationSpeed = 20;
                 lblProgress.Visible = true;
-                lblProgress.Text = "Initializing...";
-                lblTransferRate.Visible = false; // Will be shown by UpdateTransferRate
+                lblProgress.Text = Localizer.ProgressInitializing;
+                lblTransferRate.Visible = false;
                 btnCancelScraping.Visible = true;
                 btnStartScraping.Enabled = false;
-                btnStartScraping.Text = "Scraping...";
+                btnStartScraping.Text = Localizer.ProgressScraping;
                 break;
             case ProgressState.Success:
                 progressScraping.Style = ProgressBarStyle.Continuous;
                 progressScraping.Value = 100;
-                lblProgress.Text = "Export complete!";
+                lblProgress.Text = Localizer.ProgressExportComplete;
                 lblTransferRate.Visible = false;
-                btnStartScraping.Text = "Complete";
+                btnStartScraping.Text = Localizer.ProgressComplete;
                 btnCancelScraping.Visible = false;
                 break;
             case ProgressState.Error:
                 progressScraping.Style = ProgressBarStyle.Continuous;
                 progressScraping.Value = 0;
-                lblProgress.Text = "Error occurred";
+                lblProgress.Text = Localizer.ProgressError;
                 lblTransferRate.Visible = false;
-                btnStartScraping.Text = "Error";
+                btnStartScraping.Text = Localizer.TitleError;
                 btnCancelScraping.Visible = false;
                 break;
         }
@@ -796,7 +789,7 @@ public partial class MainForm : Form
     {
         if (_isScrapingInProgress)
         {
-            MessageBox.Show("Scraping is already in progress.", "Information",
+            MessageBox.Show(Localizer.MessageScrapingInProgress, Localizer.TitleInformation,
                 MessageBoxButtons.OK, MessageBoxIcon.Information);
             return;
         }
@@ -818,7 +811,7 @@ public partial class MainForm : Form
         if (_cancellationTokenSource != null && !_cancellationTokenSource.IsCancellationRequested)
         {
             _cancellationTokenSource.Cancel();
-            UpdateProgressLabelFav("Cancelling...");
+            UpdateProgressLabelFav(Localizer.ProgressCancelling);
         }
     }
 
@@ -831,7 +824,7 @@ public partial class MainForm : Form
     {
         if (string.IsNullOrWhiteSpace(txtUsernameFav.Text))
         {
-            MessageBox.Show("Please enter a DeviantArt username.", "Validation Error",
+            MessageBox.Show(Localizer.MessageEnterUsername, Localizer.TitleValidationError,
                 MessageBoxButtons.OK, MessageBoxIcon.Warning);
             txtUsernameFav.Focus();
             return false;
@@ -839,7 +832,7 @@ public partial class MainForm : Form
 
         if (string.IsNullOrWhiteSpace(txtFileNameFav.Text))
         {
-            MessageBox.Show("Please enter a filename.", "Validation Error",
+            MessageBox.Show(Localizer.MessageEnterFilename, Localizer.TitleValidationError,
                 MessageBoxButtons.OK, MessageBoxIcon.Warning);
             txtFileNameFav.Focus();
             return false;
@@ -850,7 +843,7 @@ public partial class MainForm : Form
 
         if (!hasCredentials)
         {
-            MessageBox.Show("Please configure your API credentials in Settings first.", "Configuration Required",
+            MessageBox.Show(Localizer.MessageConfigureApi, Localizer.TitleConfigRequired,
                 MessageBoxButtons.OK, MessageBoxIcon.Warning);
             return false;
         }
@@ -899,8 +892,7 @@ public partial class MainForm : Form
                     hasMore = response.HasMore;
                     offset = response.NextOffset ?? offset + limit;
 
-                    // Update progress and transfer rate
-                    UpdateProgressLabelFav($"Collected {allDeviations.Count} favorites...");
+                    UpdateProgressLabelFav(Localizer.GetProgressCollectedFavorites(allDeviations.Count));
                     UpdateTransferRateFav(allDeviations.Count);
                 }
                 else
@@ -917,36 +909,35 @@ public partial class MainForm : Form
 
             if (allDeviations.Count == 0)
             {
-                MessageBox.Show($"No favorites found for user '{username}'.", "No Results",
+                MessageBox.Show(Localizer.GetMessageNoFavorites(username), Localizer.TitleNoResults,
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
 
-            // Sort by author, then by date (newest first) - single source of sorting
             allDeviations = [.. allDeviations
                 .OrderBy(d => d.Author?.Username ?? "")
                 .ThenByDescending(d => d.PublishedTime ?? DateTime.MinValue)];
 
-            UpdateProgressLabelFav("Exporting data...");
+            UpdateProgressLabelFav(Localizer.ProgressExporting);
             await ExportDataFavAsync(allDeviations, fileName, username);
 
             string completionMessage;
             if (rbHTMLFav.Checked)
             {
                 var pageCount = (int)Math.Ceiling(allDeviations.Count / 100.0);
-                completionMessage = $"Successfully scraped {allDeviations.Count} favorites and exported to {pageCount} HTML page(s)";
+                completionMessage = Localizer.GetMessageSuccessScrapedFavoritesHtml(allDeviations.Count, pageCount);
             }
             else if (rbXLSXFav.Checked)
             {
-                completionMessage = $"Successfully scraped {allDeviations.Count} favorites and exported to {fileName}.xlsx";
+                completionMessage = Localizer.GetMessageSuccessScrapedFavorites(allDeviations.Count, $"{fileName}.xlsx");
             }
             else
             {
-                completionMessage = $"Successfully scraped {allDeviations.Count} favorites and exported to {fileName}.csv";
+                completionMessage = Localizer.GetMessageSuccessScrapedFavorites(allDeviations.Count, $"{fileName}.csv");
             }
 
             SetProgressStateFav(ProgressState.Success);
-            MessageBox.Show(completionMessage, "Export Complete", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show(completionMessage, Localizer.TitleExportComplete, MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
         catch (OperationCanceledException)
         {
@@ -962,7 +953,7 @@ public partial class MainForm : Form
             }
             else
             {
-                MessageBox.Show($"Error during scraping: {ex.Message}", "Error",
+                MessageBox.Show(Localizer.GetMessageScrapingError(ex.Message), Localizer.TitleError,
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -1019,7 +1010,7 @@ public partial class MainForm : Form
                         $"Failed to fetch favorites after {MaxRetryAttempts} attempts", ex);
                 }
 
-                UpdateProgressLabelFav($"Request failed (attempt {attempt}/{MaxRetryAttempts}), retrying in {delayMs}ms...");
+                UpdateProgressLabelFav(Localizer.GetProgressRequestFailed(attempt, MaxRetryAttempts, delayMs));
                 await Task.Delay(delayMs, cancellationToken);
                 delayMs *= 2;
             }
@@ -1043,9 +1034,8 @@ public partial class MainForm : Form
         if (collectedDeviations.Count > 0)
         {
             var result = MessageBox.Show(
-                $"Scraping was cancelled after collecting {collectedDeviations.Count} favorites.\n\n" +
-                $"Would you like to export the partial results?",
-                "Export Partial Results?",
+                Localizer.GetMessageCancelledPartialFavorites(collectedDeviations.Count),
+                Localizer.TitlePartialExport,
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Question);
 
@@ -1053,35 +1043,35 @@ public partial class MainForm : Form
             {
                 try
                 {
-                    UpdateProgressLabelFav("Exporting partial results...");
+                    UpdateProgressLabelFav(Localizer.ProgressExporting);
                     await ExportDataFavAsync(collectedDeviations, fileName, username);
 
                     string exportMessage;
                     if (rbHTMLFav.Checked)
                     {
                         var pageCount = (int)Math.Ceiling(collectedDeviations.Count / 100.0);
-                        exportMessage = $"Partial results exported to HTML ({pageCount} page(s))";
+                        exportMessage = Localizer.GetMessagePartialExportedHtml(pageCount);
                     }
                     else if (rbXLSXFav.Checked)
                     {
-                        exportMessage = $"Partial results exported to {fileName}.xlsx";
+                        exportMessage = Localizer.GetMessagePartialExportedFile($"{fileName}.xlsx");
                     }
                     else
                     {
-                        exportMessage = $"Partial results exported to {fileName}.csv";
+                        exportMessage = Localizer.GetMessagePartialExportedFile($"{fileName}.csv");
                     }
 
                     MessageBox.Show(
-                        $"Successfully exported {collectedDeviations.Count} favorites.\n\n{exportMessage}",
-                        "Partial Export Complete",
+                        Localizer.GetMessagePartialExported(collectedDeviations.Count, exportMessage),
+                        Localizer.TitlePartialComplete,
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Information);
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show(
-                        $"Error exporting partial results: {ex.Message}",
-                        "Export Error",
+                        Localizer.GetMessagePartialExportError(ex.Message),
+                        Localizer.TitleExportError,
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Error);
                 }
@@ -1090,8 +1080,8 @@ public partial class MainForm : Form
         else
         {
             MessageBox.Show(
-                "Scraping was cancelled before any favorites were collected.",
-                "Cancelled",
+                Localizer.MessageCancelledNoFavorites,
+                Localizer.TitleCancelled,
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Information);
         }
@@ -1180,13 +1170,13 @@ public partial class MainForm : Form
     private string GetFileFilterFav()
     {
         if (rbCSVFav.Checked)
-            return "CSV files (*.csv)|*.csv";
+            return Localizer.FilterCsv;
         if (rbHTMLFav.Checked)
-            return "HTML files (*.html)|*.html";
+            return Localizer.FilterHtml;
         if (rbXLSXFav.Checked)
-            return "Excel files (*.xlsx)|*.xlsx";
+            return Localizer.FilterXlsx;
 
-        return "All files (*.*)|*.*";
+        return Localizer.FilterAll;
     }
 
     /// <summary>
@@ -1219,33 +1209,33 @@ public partial class MainForm : Form
                 lblTransferRateFav.Visible = false;
                 btnCancelScrapingFav.Visible = false;
                 btnStartScrapingFav.Enabled = true;
-                btnStartScrapingFav.Text = "Start Scraping";
+                btnStartScrapingFav.Text = Localizer.ButtonStartScraping;
                 break;
             case ProgressState.Running:
                 progressScrapingFav.Visible = true;
                 progressScrapingFav.Style = ProgressBarStyle.Marquee;
-                progressScrapingFav.MarqueeAnimationSpeed = 20; // Faster animation (default is 30ms)
+                progressScrapingFav.MarqueeAnimationSpeed = 20;
                 lblProgressFav.Visible = true;
-                lblProgressFav.Text = "Initializing...";
-                lblTransferRateFav.Visible = false; // Will be shown by UpdateTransferRateFav
+                lblProgressFav.Text = Localizer.ProgressInitializing;
+                lblTransferRateFav.Visible = false;
                 btnCancelScrapingFav.Visible = true;
                 btnStartScrapingFav.Enabled = false;
-                btnStartScrapingFav.Text = "Scraping...";
+                btnStartScrapingFav.Text = Localizer.ProgressScraping;
                 break;
             case ProgressState.Success:
                 progressScrapingFav.Style = ProgressBarStyle.Continuous;
                 progressScrapingFav.Value = 100;
-                lblProgressFav.Text = "Export complete!";
+                lblProgressFav.Text = Localizer.ProgressExportComplete;
                 lblTransferRateFav.Visible = false;
-                btnStartScrapingFav.Text = "Complete";
+                btnStartScrapingFav.Text = Localizer.ProgressComplete;
                 btnCancelScrapingFav.Visible = false;
                 break;
             case ProgressState.Error:
                 progressScrapingFav.Style = ProgressBarStyle.Continuous;
                 progressScrapingFav.Value = 0;
-                lblProgressFav.Text = "Error occurred";
+                lblProgressFav.Text = Localizer.ProgressError;
                 lblTransferRateFav.Visible = false;
-                btnStartScrapingFav.Text = "Error";
+                btnStartScrapingFav.Text = Localizer.TitleError;
                 btnCancelScrapingFav.Visible = false;
                 break;
         }

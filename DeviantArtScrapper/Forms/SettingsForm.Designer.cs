@@ -29,6 +29,7 @@
         {
             lblTitle = new Label();
             grpApiSettings = new GroupBox();
+            btnShowPassword = new Button();
             lblClientId = new Label();
             txtClientId = new TextBox();
             lblClientSecret = new Label();
@@ -39,7 +40,6 @@
             btnTestConnection = new Button();
             btnSave = new Button();
             btnCancel = new Button();
-            btnShowPassword = new Button();
             grpApiSettings.SuspendLayout();
             grpTokenInfo.SuspendLayout();
             SuspendLayout();
@@ -63,15 +63,24 @@
             grpApiSettings.Controls.Add(txtClientSecret);
             grpApiSettings.Location = new Point(20, 60);
             grpApiSettings.Name = "grpApiSettings";
-            grpApiSettings.Size = new Size(440, 120);
+            grpApiSettings.Size = new Size(440, 160);
             grpApiSettings.TabIndex = 1;
             grpApiSettings.TabStop = false;
             grpApiSettings.Text = "DeviantArt API Settings";
             // 
+            // btnShowPassword
+            // 
+            btnShowPassword.Location = new Point(386, 118);
+            btnShowPassword.Name = "btnShowPassword";
+            btnShowPassword.Size = new Size(32, 31);
+            btnShowPassword.TabIndex = 3;
+            btnShowPassword.Text = "🔒";
+            btnShowPassword.UseVisualStyleBackColor = true;
+            // 
             // lblClientId
             // 
             lblClientId.AutoSize = true;
-            lblClientId.Location = new Point(37, 30);
+            lblClientId.Location = new Point(15, 30);
             lblClientId.Name = "lblClientId";
             lblClientId.Size = new Size(55, 15);
             lblClientId.TabIndex = 0;
@@ -79,33 +88,34 @@
             // 
             // txtClientId
             // 
-            txtClientId.Location = new Point(102, 27);
+            txtClientId.Location = new Point(15, 48);
             txtClientId.Name = "txtClientId";
-            txtClientId.Size = new Size(317, 23);
+            txtClientId.Size = new Size(403, 23);
             txtClientId.TabIndex = 1;
             // 
             // lblClientSecret
             // 
             lblClientSecret.AutoSize = true;
-            lblClientSecret.Location = new Point(16, 80);
+            lblClientSecret.Location = new Point(15, 101);
             lblClientSecret.Name = "lblClientSecret";
             lblClientSecret.Size = new Size(76, 15);
             lblClientSecret.TabIndex = 2;
             lblClientSecret.Text = "Client Secret:";
+            lblClientSecret.Click += lblClientSecret_Click;
             // 
             // txtClientSecret
             // 
-            txtClientSecret.Location = new Point(102, 77);
+            txtClientSecret.Location = new Point(15, 122);
             txtClientSecret.Name = "txtClientSecret";
             txtClientSecret.PasswordChar = '•';
-            txtClientSecret.Size = new Size(279, 23);
+            txtClientSecret.Size = new Size(365, 23);
             txtClientSecret.TabIndex = 2;
             // 
             // grpTokenInfo
             // 
             grpTokenInfo.Controls.Add(lblTokenInfo);
             grpTokenInfo.Controls.Add(lblTokenStatus);
-            grpTokenInfo.Location = new Point(20, 200);
+            grpTokenInfo.Location = new Point(20, 226);
             grpTokenInfo.Name = "grpTokenInfo";
             grpTokenInfo.Size = new Size(440, 80);
             grpTokenInfo.TabIndex = 2;
@@ -132,7 +142,7 @@
             // 
             // btnTestConnection
             // 
-            btnTestConnection.Location = new Point(20, 300);
+            btnTestConnection.Location = new Point(20, 326);
             btnTestConnection.Name = "btnTestConnection";
             btnTestConnection.Size = new Size(120, 35);
             btnTestConnection.TabIndex = 4;
@@ -142,7 +152,7 @@
             // 
             // btnSave
             // 
-            btnSave.Location = new Point(260, 300);
+            btnSave.Location = new Point(260, 326);
             btnSave.Name = "btnSave";
             btnSave.Size = new Size(90, 35);
             btnSave.TabIndex = 5;
@@ -152,7 +162,7 @@
             // 
             // btnCancel
             // 
-            btnCancel.Location = new Point(370, 300);
+            btnCancel.Location = new Point(370, 326);
             btnCancel.Name = "btnCancel";
             btnCancel.Size = new Size(90, 35);
             btnCancel.TabIndex = 6;
@@ -160,20 +170,11 @@
             btnCancel.UseVisualStyleBackColor = true;
             btnCancel.Click += btnCancel_Click;
             // 
-            // btnShowPassword
-            // 
-            btnShowPassword.Location = new Point(387, 73);
-            btnShowPassword.Name = "btnShowPassword";
-            btnShowPassword.Size = new Size(32, 31);
-            btnShowPassword.TabIndex = 3;
-            btnShowPassword.Text = "🔒";
-            btnShowPassword.UseVisualStyleBackColor = true;
-            // 
             // SettingsForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(484, 361);
+            ClientSize = new Size(484, 385);
             Controls.Add(btnCancel);
             Controls.Add(btnSave);
             Controls.Add(btnTestConnection);
@@ -193,6 +194,31 @@
             ResumeLayout(false);
             PerformLayout();
         }
+
+        /// <summary>
+        /// Applies localized text to all UI controls
+        /// </summary>
+        private void LocalizeControls()
+        {
+            // Form title
+            this.Text = Localization.Localizer.SettingsWindowTitle;
+            lblTitle.Text = Localization.Localizer.SettingsTitle;
+
+            // API Settings group
+            grpApiSettings.Text = Localization.Localizer.SettingsApiSettings;
+            lblClientId.Text = Localization.Localizer.SettingsClientId;
+            lblClientSecret.Text = Localization.Localizer.SettingsClientSecret;
+
+            // Authentication Status group
+            grpTokenInfo.Text = Localization.Localizer.SettingsAuthStatus;
+            lblTokenInfo.Text = Localization.Localizer.SettingsTokenStatus;
+
+            // Buttons
+            btnTestConnection.Text = Localization.Localizer.ButtonTestConnection;
+            btnSave.Text = Localization.Localizer.ButtonSave;
+            btnCancel.Text = Localization.Localizer.ButtonCancel;
+        }
+
         private Button btnShowPassword;
     }
 }

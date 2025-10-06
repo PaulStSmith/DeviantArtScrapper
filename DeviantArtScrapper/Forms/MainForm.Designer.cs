@@ -444,7 +444,47 @@ namespace DeviantArtScrapper.Forms
             grpFileFormatFav.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
+
+            // Set localized text after all components are created
+            LocalizeControls();
         }
+
+        /// <summary>
+        /// Applies localized text to all UI controls
+        /// </summary>
+        private void LocalizeControls()
+        {
+            // Form title
+            this.Text = Localization.Localizer.MainFormTitle;
+
+            // Tab names
+            tabGallery.Text = Localization.Localizer.TabGallery;
+            tabFavorites.Text = Localization.Localizer.TabFavorites;
+
+            // Gallery tab labels
+            lblUsername.Text = Localization.Localizer.LabelUsername;
+            lblFileName.Text = Localization.Localizer.LabelFileName;
+            grpFileFormat.Text = Localization.Localizer.LabelFileFormat;
+
+            // Gallery tab buttons
+            btnBrowse.Text = Localization.Localizer.ButtonBrowse;
+            btnStartScraping.Text = Localization.Localizer.ButtonStartScraping;
+            btnCancelScraping.Text = Localization.Localizer.ButtonCancel;
+
+            // Favorites tab labels
+            lblUsernameFav.Text = Localization.Localizer.LabelUsername;
+            lblFileNameFav.Text = Localization.Localizer.LabelFileName;
+            grpFileFormatFav.Text = Localization.Localizer.LabelFileFormat;
+
+            // Favorites tab buttons
+            btnBrowseFav.Text = Localization.Localizer.ButtonBrowse;
+            btnStartScrapingFav.Text = Localization.Localizer.ButtonStartScraping;
+            btnCancelScrapingFav.Text = Localization.Localizer.ButtonCancel;
+
+            // Settings button
+            btnSettings.Text = Localization.Localizer.ButtonSettings;
+        }
+
         private Label lblUsername;
         private TextBox txtUsername;
         private Label lblFileName;

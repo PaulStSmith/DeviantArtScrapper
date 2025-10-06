@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" msdata:Ordinal="5" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  
+  <!-- Main Form -->
+  <data name="MainForm_Title" xml:space="preserve">
+    <value>DeviantArt Scrapper</value>
+  </data>
+  <data name="MainForm_StatusReady" xml:space="preserve">
+    <value>Status: Pronto - API configurada e autenticada</value>
+  </data>
+  <data name="MainForm_StatusConfigured" xml:space="preserve">
+    <value>Status: Configurado - Autenticação necessária</value>
+  </data>
+  <data name="MainForm_StatusNotConfigured" xml:space="preserve">
+    <value>Status: Não configurado - Por favor, configure as definições da API</value>
+  </data>
+  
+  <!-- Tabs -->
+  <data name="Tab_Gallery" xml:space="preserve">
+    <value>Galeria</value>
+  </data>
+  <data name="Tab_Favorites" xml:space="preserve">
+    <value>Favoritos</value>
+  </data>
+  
+  <!-- Common Labels -->
+  <data name="Label_Username" xml:space="preserve">
+    <value>Nome de usuário do DeviantArt:</value>
+  </data>
+  <data name="Label_FileName" xml:space="preserve">
+    <value>Nome do arquivo:</value>
+  </data>
+  <data name="Label_FileFormat" xml:space="preserve">
+    <value>Formato do Arquivo</value>
+  </data>
+  
+  <!-- Buttons -->
+  <data name="Button_Browse" xml:space="preserve">
+    <value>Procurar...</value>
+  </data>
+  <data name="Button_StartScraping" xml:space="preserve">
+    <value>Iniciar Extração</value>
+  </data>
+  <data name="Button_Cancel" xml:space="preserve">
+    <value>Cancelar</value>
+  </data>
+  <data name="Button_Settings" xml:space="preserve">
+    <value>Configurações</value>
+  </data>
+  <data name="Button_Save" xml:space="preserve">
+    <value>Salvar</value>
+  </data>
+  <data name="Button_TestConnection" xml:space="preserve">
+    <value>Testar Conexão</value>
+  </data>
+  
+  <!-- Progress Messages -->
+  <data name="Progress_Initializing" xml:space="preserve">
+    <value>Inicializando...</value>
+  </data>
+  <data name="Progress_Collected" xml:space="preserve">
+    <value>Coletados {0} itens...</value>
+  </data>
+  <data name="Progress_CollectedFavorites" xml:space="preserve">
+    <value>Coletados {0} favoritos...</value>
+  </data>
+  <data name="Progress_Exporting" xml:space="preserve">
+    <value>Exportando dados...</value>
+  </data>
+  <data name="Progress_Cancelling" xml:space="preserve">
+    <value>Cancelando...</value>
+  </data>
+  <data name="Progress_ExportComplete" xml:space="preserve">
+    <value>Exportação concluída!</value>
+  </data>
+  <data name="Progress_Error" xml:space="preserve">
+    <value>Ocorreu um erro</value>
+  </data>
+  <data name="Progress_Scraping" xml:space="preserve">
+    <value>Extraindo...</value>
+  </data>
+  <data name="Progress_Complete" xml:space="preserve">
+    <value>Concluído</value>
+  </data>
+  <data name="Progress_RequestFailed" xml:space="preserve">
+    <value>Solicitação falhou (tentativa {0}/{1}), tentando novamente em {2}ms...</value>
+  </data>
+  
+  <!-- MessageBox Titles -->
+  <data name="MessageBox_Information" xml:space="preserve">
+    <value>Informação</value>
+  </data>
+  <data name="MessageBox_ValidationError" xml:space="preserve">
+    <value>Erro de Validação</value>
+  </data>
+  <data name="MessageBox_ConfigRequired" xml:space="preserve">
+    <value>Configuração Necessária</value>
+  </data>
+  <data name="MessageBox_NoResults" xml:space="preserve">
+    <value>Nenhum Resultado</value>
+  </data>
+  <data name="MessageBox_ExportComplete" xml:space="preserve">
+    <value>Exportação Concluída</value>
+  </data>
+  <data name="MessageBox_Error" xml:space="preserve">
+    <value>Erro</value>
+  </data>
+  <data name="MessageBox_Success" xml:space="preserve">
+    <value>Sucesso</value>
+  </data>
+  <data name="MessageBox_Cancelled" xml:space="preserve">
+    <value>Cancelado</value>
+  </data>
+  <data name="MessageBox_PartialExport" xml:space="preserve">
+    <value>Exportar Resultados Parciais?</value>
+  </data>
+  <data name="MessageBox_PartialComplete" xml:space="preserve">
+    <value>Exportação Parcial Concluída</value>
+  </data>
+  <data name="MessageBox_ExportError" xml:space="preserve">
+    <value>Erro na Exportação</value>
+  </data>
+  
+  <!-- MessageBox Messages -->
+  <data name="Message_ScrapingInProgress" xml:space="preserve">
+    <value>A extração já está em andamento.</value>
+  </data>
+  <data name="Message_EnterUsername" xml:space="preserve">
+    <value>Por favor, insira um nome de usuário do DeviantArt.</value>
+  </data>
+  <data name="Message_EnterFilename" xml:space="preserve">
+    <value>Por favor, insira um nome de arquivo.</value>
+  </data>
+  <data name="Message_ConfigureApi" xml:space="preserve">
+    <value>Por favor, configure suas credenciais de API nas Configurações primeiro.</value>
+  </data>
+  <data name="Message_NoGalleryItems" xml:space="preserve">
+    <value>Nenhum item de galeria encontrado para o usuário '{0}'.</value>
+  </data>
+  <data name="Message_NoFavorites" xml:space="preserve">
+    <value>Nenhum favorito encontrado para o usuário '{0}'.</value>
+  </data>
+  <data name="Message_ScrapingError" xml:space="preserve">
+    <value>Erro durante a extração: {0}</value>
+  </data>
+  <data name="Message_SuccessScraped" xml:space="preserve">
+    <value>Extraídos com sucesso {0} itens e exportados para {1}</value>
+  </data>
+  <data name="Message_SuccessScrapedHtml" xml:space="preserve">
+    <value>Extraídos com sucesso {0} itens e exportados para {1} página(s) HTML</value>
+  </data>
+  <data name="Message_SuccessScrapedFavoritesHtml" xml:space="preserve">
+    <value>Extraídos com sucesso {0} favoritos e exportados para {1} página(s) HTML</value>
+  </data>
+  <data name="Message_SuccessScrapedFavorites" xml:space="preserve">
+    <value>Extraídos com sucesso {0} favoritos e exportados para {1}</value>
+  </data>
+  <data name="Message_CancelledPartial" xml:space="preserve">
+    <value>A extração foi cancelada após coletar {0} itens.
+
+Deseja exportar os resultados parciais?</value>
+  </data>
+  <data name="Message_CancelledPartialFavorites" xml:space="preserve">
+    <value>A extração foi cancelada após coletar {0} favoritos.
+
+Deseja exportar os resultados parciais?</value>
+  </data>
+  <data name="Message_CancelledNoItems" xml:space="preserve">
+    <value>A extração foi cancelada antes de coletar qualquer item.</value>
+  </data>
+  <data name="Message_CancelledNoFavorites" xml:space="preserve">
+    <value>A extração foi cancelada antes de coletar qualquer favorito.</value>
+  </data>
+  <data name="Message_PartialExported" xml:space="preserve">
+    <value>Exportados com sucesso {0} itens.
+
+{1}</value>
+  </data>
+  <data name="Message_PartialExportedHtml" xml:space="preserve">
+    <value>Resultados parciais exportados para HTML ({0} página(s))</value>
+  </data>
+  <data name="Message_PartialExportedFile" xml:space="preserve">
+    <value>Resultados parciais exportados para {0}</value>
+  </data>
+  <data name="Message_PartialExportError" xml:space="preserve">
+    <value>Erro ao exportar resultados parciais: {0}</value>
+  </data>
+  
+  <!-- Settings Form -->
+  <data name="Settings_Title" xml:space="preserve">
+    <value>Configuração da API</value>
+  </data>
+  <data name="Settings_WindowTitle" xml:space="preserve">
+    <value>Configurações - DeviantArt Scrapper</value>
+  </data>
+  <data name="Settings_ApiSettings" xml:space="preserve">
+    <value>Configurações da API</value>
+  </data>
+  <data name="Settings_ClientId" xml:space="preserve">
+    <value>ID do Cliente:</value>
+  </data>
+  <data name="Settings_ClientSecret" xml:space="preserve">
+    <value>Senha do Cliente:</value>
+  </data>
+  <data name="Settings_AuthStatus" xml:space="preserve">
+    <value>Status de Autenticação</value>
+  </data>
+  <data name="Settings_TokenStatus" xml:space="preserve">
+    <value>Status do Token:</value>
+  </data>
+  <data name="Settings_NoToken" xml:space="preserve">
+    <value>Nenhum token disponível</value>
+  </data>
+  <data name="Settings_TokenValid" xml:space="preserve">
+    <value>Válido até {0}</value>
+  </data>
+  <data name="Settings_ConnectionSuccess" xml:space="preserve">
+    <value>Conexão bem-sucedida!</value>
+  </data>
+  <data name="Settings_ConnectionFailed" xml:space="preserve">
+    <value>Teste de conexão falhou: {0}</value>
+  </data>
+  <data name="Settings_SavedSuccess" xml:space="preserve">
+    <value>Configurações salvas com sucesso!</value>
+  </data>
+  <data name="Settings_SaveFailed" xml:space="preserve">
+    <value>Falha ao salvar configurações: {0}</value>
+  </data>
+  <data name="Settings_LoadFailed" xml:space="preserve">
+    <value>Falha ao carregar configuração: {0}</value>
+  </data>
+  <data name="Settings_EnterCredentials" xml:space="preserve">
+    <value>Por favor, insira o ID do Cliente e a Senha do Cliente.</value>
+  </data>
+  
+  <!-- File Filters -->
+  <data name="Filter_Csv" xml:space="preserve">
+    <value>Arquivos CSV (*.csv)|*.csv</value>
+  </data>
+  <data name="Filter_Html" xml:space="preserve">
+    <value>Arquivos HTML (*.html)|*.html</value>
+  </data>
+  <data name="Filter_Xlsx" xml:space="preserve">
+    <value>Arquivos Excel (*.xlsx)|*.xlsx</value>
+  </data>
+  <data name="Filter_All" xml:space="preserve">
+    <value>Todos os arquivos (*.*)|*.*</value>
+  </data>
+</root>

@@ -1,18 +1,16 @@
 using DeviantArtScrapper.Models;
 using DeviantArtScrapper.Services;
+using DeviantArtScrapper.Localization;
 using System.Runtime.Versioning;
 
 namespace DeviantArtScrapper.Forms;
 
 #pragma warning disable IDE1006 // Naming Styles
+
 /// <summary>
-/// Represents a dialog form for configuring DeviantArt API settings.
+/// Settings form for configuring DeviantArt API credentials.
+/// Provides UI for entering API credentials and testing the connection.
 /// </summary>
-/// <remarks>
-/// This form allows users to enter and test their DeviantArt API credentials,
-/// including Client ID and Client Secret. It validates the credentials and
-/// manages bearer token lifecycle.
-/// </remarks>
 [SupportedOSPlatform("windows")]
 public partial class SettingsForm : Form
 {
@@ -35,7 +33,7 @@ public partial class SettingsForm : Form
             BearerToken = currentConfig.BearerToken,
             TokenExpiration = currentConfig.TokenExpiration
         };
-        
+
         LoadCurrentSettings();
         btnShowPassword.Click += btnShowPassword_Click;
     }
@@ -51,23 +49,22 @@ public partial class SettingsForm : Form
     }
 
     /// <summary>
-    /// Updates the token status label to reflect the current bearer token state.
+    /// Updates the token status display label based on the current bearer token state.
     /// </summary>
     /// <remarks>
-    /// Displays whether the token is valid, expired, or not available, along with
-    /// the expiration date if the token is still valid.
+    /// Shows token expiration time if a valid token exists, otherwise displays
+    /// "No token available" message.
     /// </remarks>
     private void UpdateTokenStatusDisplay()
     {
-        if (!string.IsNullOrEmpty(Configuration.BearerToken))
+        if (!string.IsNullOrEmpty(Configuration.BearerToken) &&
+            Configuration.TokenExpiration > DateTime.UtcNow)
         {
-            lblTokenStatus.Text = Configuration.TokenExpiration > DateTime.UtcNow 
-                ? $"Token valid until: {Configuration.TokenExpiration:yyyy-MM-dd HH:mm}"
-                : "Token expired";
+            lblTokenStatus.Text = Localizer.GetSettingsTokenValid(Configuration.TokenExpiration.Value);
         }
         else
         {
-            lblTokenStatus.Text = "No token available";
+            lblTokenStatus.Text = Localizer.SettingsNoToken;
         }
     }
 
@@ -84,7 +81,7 @@ public partial class SettingsForm : Form
     {
         if (string.IsNullOrWhiteSpace(txtClientId.Text))
         {
-            MessageBox.Show("Client ID is required.", "Validation Error", 
+            MessageBox.Show("Client ID is required.", "Validation Error",
                 MessageBoxButtons.OK, MessageBoxIcon.Warning);
             txtClientId.Focus();
             return;
@@ -92,7 +89,7 @@ public partial class SettingsForm : Form
 
         if (string.IsNullOrWhiteSpace(txtClientSecret.Text))
         {
-            MessageBox.Show("Client Secret is required.", "Validation Error", 
+            MessageBox.Show("Client Secret is required.", "Validation Error",
                 MessageBoxButtons.OK, MessageBoxIcon.Warning);
             txtClientSecret.Focus();
             return;
@@ -100,11 +97,11 @@ public partial class SettingsForm : Form
 
         Configuration.ClientId = txtClientId.Text.Trim();
         Configuration.ClientSecret = txtClientSecret.Text.Trim();
-        
+
         // Clear token if credentials changed
         var credentialsChanged = Configuration.ClientId != txtClientId.Text.Trim() ||
                                Configuration.ClientSecret != txtClientSecret.Text.Trim();
-        
+
         if (credentialsChanged)
         {
             Configuration.BearerToken = null;
@@ -140,62 +137,56 @@ public partial class SettingsForm : Form
     {
         if (string.IsNullOrWhiteSpace(txtClientId.Text) || string.IsNullOrWhiteSpace(txtClientSecret.Text))
         {
-            MessageBox.Show("Please enter both Client ID and Client Secret before testing.", "Missing Information",
+            MessageBox.Show(Localizer.SettingsEnterCredentials, Localizer.TitleValidationError,
                 MessageBoxButtons.OK, MessageBoxIcon.Warning);
             return;
         }
 
-        // Disable button and show progress
         btnTestConnection.Enabled = false;
         btnTestConnection.Text = "Testing...";
-        
+
         try
         {
             var apiService = new DeviantArtApiService();
-            
-            // Step 1: Authenticate and get token
+
             var authResponse = await apiService.AuthenticateAsync(txtClientId.Text.Trim(), txtClientSecret.Text.Trim());
-            
+
             if (!apiService.IsSuccessful || string.IsNullOrEmpty(authResponse.AccessToken))
             {
                 var errorMsg = apiService.LastException?.Message ?? "Authentication failed";
-                MessageBox.Show($"Authentication failed: {errorMsg}", "Connection Test Failed",
+                MessageBox.Show(Localizer.GetSettingsConnectionFailed(errorMsg), Localizer.TitleError,
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            // Step 2: Test connection with placebo endpoint
             var placeboResponse = await apiService.TestConnectionAsync(authResponse.AccessToken);
-            
+
             if (apiService.IsSuccessful && placeboResponse.Status == "success")
             {
-                // Update configuration with new token
                 Configuration.BearerToken = authResponse.AccessToken;
                 Configuration.TokenExpiration = DateTime.UtcNow.AddSeconds(authResponse.ExpiresIn);
-                
-                // Update only the token status display, preserve user input
+
                 UpdateTokenStatusDisplay();
-                
-                MessageBox.Show("Connection test successful! API credentials are valid.", "Connection Test Successful",
+
+                MessageBox.Show(Localizer.SettingsConnectionSuccess, Localizer.TitleSuccess,
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             else
             {
                 var errorMsg = apiService.LastException?.Message ?? "Placebo test failed";
-                MessageBox.Show($"Connection test failed: {errorMsg}", "Connection Test Failed",
+                MessageBox.Show(Localizer.GetSettingsConnectionFailed(errorMsg), Localizer.TitleError,
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         catch (Exception ex)
         {
-            MessageBox.Show($"Connection test failed with error: {ex.Message}", "Connection Test Error",
+            MessageBox.Show(Localizer.GetSettingsConnectionFailed(ex.Message), Localizer.TitleError,
                 MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
         finally
         {
-            // Re-enable button
             btnTestConnection.Enabled = true;
-            btnTestConnection.Text = "Test Connection";
+            btnTestConnection.Text = Localizer.ButtonTestConnection;
         }
     }
 
@@ -222,5 +213,10 @@ public partial class SettingsForm : Form
             txtClientSecret.PasswordChar = '•';
             btnShowPassword.Text = "🔒";
         }
+    }
+
+    private void lblClientSecret_Click(object sender, EventArgs e)
+    {
+
     }
 }

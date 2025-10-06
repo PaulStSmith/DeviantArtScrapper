@@ -1,4 +1,5 @@
 using DeviantArtScrapper.Forms;
+using System.Globalization;
 using System.Runtime.Versioning;
 
 namespace DeviantArtScrapper;
