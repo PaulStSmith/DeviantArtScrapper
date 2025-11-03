@@ -61,7 +61,7 @@ namespace DeviantArtScrapper.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Browse....
+        ///   Looks up a localized string similar to ....
         /// </summary>
         internal static string Button_Browse {
             get {

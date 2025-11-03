@@ -94,7 +94,7 @@
   
   <!-- Buttons -->
   <data name="Button_Browse" xml:space="preserve">
-    <value>Browse...</value>
+    <value>...</value>
   </data>
   <data name="Button_StartScraping" xml:space="preserve">
     <value>Start Scraping</value>
